@@ -115,6 +115,10 @@ namespace PIBand
         {
             //Save settings
             AppSettings.AddOrUpdateValue("Username", tbUsername.Text);
+            AppSettings.AddOrUpdateValue("Password", tbPassword.Text);
+            AppSettings.AddOrUpdateValue("PI Web API Server", tbPIWebAPIServer.Text);
+            AppSettings.AddOrUpdateValue("AF Server", tbAFServer.Text);
+            AppSettings.AddOrUpdateValue("PI Server", tbPIServer.Text);
 
 
             // Go back to settings

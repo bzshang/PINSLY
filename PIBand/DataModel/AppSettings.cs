@@ -75,7 +75,7 @@ namespace PIBand.Data
             return new ConfigSettings(
                 GetValueOrDefault("Username", "PINSly_user"),
                 GetValueOrDefault("Password", "secret"),
-                GetValueOrDefault("PI WebAPI Server", "osiproghackuc2015.cloudapp.net"),
+                GetValueOrDefault("PI Web API Server", "osiproghackuc2015.cloudapp.net"),
                 GetValueOrDefault("AF Server", "testAFServer"),
                 GetValueOrDefault("PI Server", "testPIServer"));
 

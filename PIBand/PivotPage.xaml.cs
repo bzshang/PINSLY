@@ -97,10 +97,12 @@ namespace PIBand
         /// </summary>
         private void EditAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            tbUsername.IsEnabled = true;
+
+            EnableTextBoxes(true);
 
             EditAppBarButton.Visibility = Visibility.Collapsed;
             SaveAppBarButton.Visibility = Visibility.Visible;
+            BackAppBarButton.Visibility = Visibility.Visible;
 
             //Frame.Navigate(typeof(EditPage));
 
@@ -123,14 +125,29 @@ namespace PIBand
             //listView.ScrollIntoView(newItem, ScrollIntoViewAlignment.Leading);
         }
 
+        private void EnableTextBoxes(bool isEnable)
+        {
+            tbUsername.IsEnabled = isEnable;
+            tbPassword.IsEnabled = isEnable;
+            tbPIWebAPIServer.IsEnabled = isEnable;
+            tbAFServer.IsEnabled = isEnable;
+            tbPIServer.IsEnabled = isEnable;
+        }
+
         private void SaveAppBarButton_Click(object sender, RoutedEventArgs e)
         {
             //Save settings
             AppSettings.AddOrUpdateValue("Username", tbUsername.Text);
+            AppSettings.AddOrUpdateValue("Password", tbPassword.Text);
+            AppSettings.AddOrUpdateValue("PI Web API Server", tbPIWebAPIServer.Text);
+            AppSettings.AddOrUpdateValue("AF Server", tbAFServer.Text);
+            AppSettings.AddOrUpdateValue("PI Server", tbPIWebAPIServer.Text);
 
+            this.DefaultViewModel[SettingsGroupName] = AppSettings.GetSettings();
             //Update UI
-            tbUsername.IsEnabled = false;
+            EnableTextBoxes(false);
             SaveAppBarButton.Visibility = Visibility.Collapsed;
+            BackAppBarButton.Visibility = Visibility.Collapsed;
             EditAppBarButton.Visibility = Visibility.Visible;
 
             //AppBarButton editButton = new AppBarButton();
@@ -140,6 +157,17 @@ namespace PIBand
 
             //bottomAppBar.PrimaryCommands.RemoveAt(0);
             //bottomAppBar.PrimaryCommands.Insert(0, editButton);
+        }
+
+        private void BackAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.DefaultViewModel[SettingsGroupName] = AppSettings.GetSettings();
+
+            //Update UI
+            EnableTextBoxes(false);
+            SaveAppBarButton.Visibility = Visibility.Collapsed;
+            BackAppBarButton.Visibility = Visibility.Collapsed;
+            EditAppBarButton.Visibility = Visibility.Visible;
         }
 
         /// <summary>
@@ -197,16 +225,22 @@ namespace PIBand
             //var sampleDataGroup = await SampleDataSource.GetGroupAsync("Settings");
             //this.DefaultViewModel[SettingsGroupName] = sampleDataGroup;
 
-            this.DefaultViewModel[SettingsGroupName] = AppSettings.GetSettings();
+            //this.DefaultViewModel[SettingsGroupName] = AppSettings.GetSettings();
         }
 
         private void pivot_PivotItemLoaded(Pivot sender, PivotItemEventArgs args)
         {
             if (args.Item.Name == "Settings")
             {
-                bottomAppBar.Visibility = Visibility.Visible;
+                this.DefaultViewModel[SettingsGroupName] = AppSettings.GetSettings();
 
-                
+                bottomAppBar.Visibility = Visibility.Visible;
+                //Update UI
+                EnableTextBoxes(false);
+                SaveAppBarButton.Visibility = Visibility.Collapsed;
+                BackAppBarButton.Visibility = Visibility.Collapsed;
+                EditAppBarButton.Visibility = Visibility.Visible;
+
 
                 //AppBarButton editButton = new AppBarButton();
                 //editButton.Icon = new SymbolIcon(Symbol.Edit);
@@ -230,6 +264,7 @@ namespace PIBand
                 //}
             }
         }
+
 
     }
 }

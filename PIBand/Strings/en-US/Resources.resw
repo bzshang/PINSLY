@@ -120,6 +120,9 @@
   <data name="AddAppBarButton.Label" xml:space="preserve">
     <value>edit</value>
   </data>
+  <data name="DataPivot.Header" xml:space="preserve">
+    <value>Data</value>
+  </data>
   <data name="Header.Text" xml:space="preserve">
     <value>PINSly</value>
   </data>

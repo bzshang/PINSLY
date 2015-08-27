@@ -35,57 +35,60 @@
             d:DataContext="{Binding Source={d:DesignData Source=/DataModel/ConfigSettings.json, Type=data:ConfigSettings}}"
             Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
             <StackPanel Margin="0,0,0,9.5">
-                 <TextBlock 
-                        Text="USERNAME"
-                        Pivot.SlideInAnimationGroup="1"
-                        CommonNavigationTransitionInfo.IsStaggerElement="True"
-                        Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
-                        />
+                <TextBlock 
+                    Text="USERNAME"
+                    Pivot.SlideInAnimationGroup="1"
+                    CommonNavigationTransitionInfo.IsStaggerElement="True"
+                    Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
+                    />
                 <TextBox
-                        x:Name="tbUsername"
-                        Text="{Binding Username}"
-                        Pivot.SlideInAnimationGroup="2"
-                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
-                        />
+                    x:Name="tbUsername"
+                    Text="{Binding Username}"
+                    Pivot.SlideInAnimationGroup="2"
+                    CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
+                    />
                 <Border BorderBrush="Gray" BorderThickness="0,2,0,0" Grid.Row="0">
-                    <TextBlock 
-                        Text="PASSWORD"
-                        Pivot.SlideInAnimationGroup="1"
-                        CommonNavigationTransitionInfo.IsStaggerElement="True"
-                        Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
-                        />
+                <TextBlock 
+                    Text="PASSWORD"
+                    Pivot.SlideInAnimationGroup="1"
+                    CommonNavigationTransitionInfo.IsStaggerElement="True"
+                    Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
+                    />
                 </Border>
                 <TextBox
-                        Text="{Binding Password}"
-                        Pivot.SlideInAnimationGroup="2"
-                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
-                        />
+                    x:Name="tbPassword"
+                    Text="{Binding Password}"
+                    Pivot.SlideInAnimationGroup="2"
+                    CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
+                    />
                 <Border BorderBrush="Gray" BorderThickness="0,2,0,0" Grid.Row="0">
-                    <TextBlock 
-                        Text="PI Web API Server"
-                        Pivot.SlideInAnimationGroup="1"
-                        CommonNavigationTransitionInfo.IsStaggerElement="True"
-                        Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
-                        />
+                <TextBlock 
+                    Text="PI Web API Server"
+                    Pivot.SlideInAnimationGroup="1"
+                    CommonNavigationTransitionInfo.IsStaggerElement="True"
+                    Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
+                    />
                 </Border>
                 <TextBox
-                        Text="{Binding PIWebAPIServer}"
-                        Pivot.SlideInAnimationGroup="2"
-                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
-                        />
+                    x:Name="tbPIWebAPIServer"
+                    Text="{Binding PIWebAPIServer}"
+                    Pivot.SlideInAnimationGroup="2"
+                    CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
+                    />
                 <Border BorderBrush="Gray" BorderThickness="0,2,0,0" Grid.Row="0">
-                    <TextBlock 
-                        Text="AF Server"
-                        Pivot.SlideInAnimationGroup="1"
-                        CommonNavigationTransitionInfo.IsStaggerElement="True"
-                        Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
-                        />
+                <TextBlock 
+                    Text="AF Server"
+                    Pivot.SlideInAnimationGroup="1"
+                    CommonNavigationTransitionInfo.IsStaggerElement="True"
+                    Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
+                    />
                 </Border>
                 <TextBox
-                        Text="{Binding AFServer}"
-                        Pivot.SlideInAnimationGroup="2"
-                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
-                        />
+                    x:Name="tbAFServer"
+                    Text="{Binding AFServer}"
+                    Pivot.SlideInAnimationGroup="2"
+                    CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
+                    />
                 <Border BorderBrush="Gray" BorderThickness="0,2,0,0" Grid.Row="0">
                     <TextBlock 
                         Text="PI Server"
@@ -95,10 +98,11 @@
                         />
                 </Border>
                 <TextBox
-                        Text="{Binding PIServer}"
-                        Pivot.SlideInAnimationGroup="2"
-                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
-                        />
+                    x:Name="tbPIServer"
+                    Text="{Binding PIServer}"
+                    Pivot.SlideInAnimationGroup="2"
+                    CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
+                    />
                 <Border BorderBrush="Gray" BorderThickness="0,2,0,0" Grid.Row="0">
                 </Border>
             </StackPanel>

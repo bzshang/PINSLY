@@ -22,14 +22,16 @@
     <Grid>
         <Pivot x:Uid="Pivot" Title="PINSly" x:Name="pivot" CommonNavigationTransitionInfo.IsStaggerElement="True" PivotItemLoaded="pivot_PivotItemLoaded">
             <!--Pivot item one-->
-            <PivotItem
+            <!--<PivotItem
                 x:Uid="PivotItem1"
                 Margin="19,14.5,0,0"
                 Header="first"
                 DataContext="{Binding FirstGroup}"
                 d:DataContext="{Binding Groups[0], Source={d:DesignData Source=/DataModel/SampleData.json, Type=data:SampleDataSource}}"
                 CommonNavigationTransitionInfo.IsStaggerElement="True">
-                <!--Double line list with text wrapping-->
+                -->
+            <!--Double line list with text wrapping-->
+            <!--
                 <ListView
                     ItemsSource="{Binding Items}"
                     IsItemClickEnabled="True"
@@ -58,14 +60,18 @@
                 </ListView>
             </PivotItem>
 
+            -->
             <!--Pivot item two-->
+            <!--
             <PivotItem
                 x:Uid="PivotItem2"
                 Margin="19,14.5,0,0"
                 Header="second"
                 DataContext="{Binding SecondGroup}"
                 d:DataContext="{Binding Groups[1], Source={d:DesignData Source=/DataModel/SampleData.json, Type=data:SampleDataSource}}">
-                <!--Double line list no text wrapping-->
+                -->
+            <!--Double line list no text wrapping-->
+            <!--
                 <ListView
                     ItemsSource="{Binding Items}"
                     IsItemClickEnabled="True"
@@ -89,11 +95,12 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-            </PivotItem>
+            </PivotItem>-->
             <PivotItem 
+                x:Name="DataPivot"
                 Margin="19,14.5,0,0"
-                Header="Collect">
-                <Button x:Name="button" Content="Start" HorizontalAlignment="Center" Height="100" Margin="-20,0,0,0" VerticalAlignment="Center" Width="100" Style="{StaticResource ButtonStyleCircle}"/>
+                Header="Data">
+                <Button x:Name="btnStart" Content="Start" HorizontalAlignment="Center" Height="90" Margin="126,172,145.833,176.333" VerticalAlignment="Center" Width="90" Style="{StaticResource ButtonStyleCircle}"/>
             </PivotItem>
             <!--Pivot item settings-->
             <PivotItem
@@ -102,7 +109,7 @@
                 Margin="19,14.5,0,0"
                 Header="Settings"
                 DataContext="{Binding Settings}"
-                d:DataContext="{Binding Source={d:DesignData Source=/DataModel/ConfigSettings.json, Type=data:ConfigSettings}}" Loaded="Settings_Loaded">
+                d:DataContext="{Binding Source={d:DesignData Source=/DataModel/ConfigSettings.json, Type=data:ConfigSettings}}">
                 <StackPanel Margin="0,0,0,9.5">
                     <TextBlock 
                         Text="USERNAME"
@@ -116,60 +123,54 @@
                         Pivot.SlideInAnimationGroup="2"
                         CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10" IsEnabled="false"
                         />
-                    <Border BorderBrush="Gray" BorderThickness="0,2,0,0" Grid.Row="0">
-                        <TextBlock 
+                    <TextBlock 
                         Text="PASSWORD"
                         Pivot.SlideInAnimationGroup="1"
                         CommonNavigationTransitionInfo.IsStaggerElement="True"
                         Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
                         />
-                    </Border>
-                    <TextBlock
+                    <TextBox
+                        x:Name="tbPassword"
                         Text="{Binding Password}"
                         Pivot.SlideInAnimationGroup="2"
-                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10" IsEnabled="false"
                         />
-                    <Border BorderBrush="Gray" BorderThickness="0,2,0,0" Grid.Row="0">
-                        <TextBlock 
-                        Text="PI Web API Server"
+                    <TextBlock 
+                        Text="PI WEB API SERVER"
                         Pivot.SlideInAnimationGroup="1"
                         CommonNavigationTransitionInfo.IsStaggerElement="True"
                         Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
                         />
-                    </Border>
-                    <TextBlock
+                    <TextBox
+                        x:Name="tbPIWebAPIServer"
                         Text="{Binding PIWebAPIServer}"
                         Pivot.SlideInAnimationGroup="2"
-                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10" IsEnabled="false"
                         />
-                    <Border BorderBrush="Gray" BorderThickness="0,2,0,0" Grid.Row="0">
-                        <TextBlock 
-                        Text="AF Server"
+                    <TextBlock 
+                        Text="AF SERVER"
                         Pivot.SlideInAnimationGroup="1"
                         CommonNavigationTransitionInfo.IsStaggerElement="True"
                         Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
                         />
-                    </Border>
-                    <TextBlock
+                    <TextBox
+                        x:Name="tbAFServer"
                         Text="{Binding AFServer}"
                         Pivot.SlideInAnimationGroup="2"
-                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10" IsEnabled="false"
                         />
-                    <Border BorderBrush="Gray" BorderThickness="0,2,0,0" Grid.Row="0">
-                        <TextBlock 
-                        Text="PI Server"
+                    <TextBlock 
+                        Text="PI SERVER"
                         Pivot.SlideInAnimationGroup="1"
                         CommonNavigationTransitionInfo.IsStaggerElement="True"
                         Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
                         />
-                    </Border>
-                    <TextBlock
+                    <TextBox
+                        x:Name="tbPIServer"
                         Text="{Binding PIServer}"
                         Pivot.SlideInAnimationGroup="2"
-                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10" IsEnabled="false"
                         />
-                    <Border BorderBrush="Gray" BorderThickness="0,2,0,0" Grid.Row="0">
-                    </Border>
                 </StackPanel>
 
             </PivotItem>
@@ -179,7 +180,8 @@
     <Page.BottomAppBar >
         <CommandBar x:Name="bottomAppBar" Visibility="Collapsed">
             <AppBarButton x:Uid="EditAppBarButton" x:Name="EditAppBarButton" Label="edit" Click="EditAppBarButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Edit" />
-            <AppBarButton x:Uid="SaveAppBarButton" x:Name="SaveAppBarButton" Label="edit" Click="SaveAppBarButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Save" Visibility="Collapsed"/>
+            <AppBarButton x:Uid="BackAppBarButton" x:Name="BackAppBarButton" Label="edit" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Back" Visibility="Collapsed" Click="BackAppBarButton_Click"/>
+            <AppBarButton x:Uid="SaveAppBarButton" x:Name="SaveAppBarButton" Label="edit" Click="SaveAppBarButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Save" Visibility="Collapsed"/> 
             <!--<CommandBar.SecondaryCommands>
                 <AppBarButton x:Uid="SecondaryButton1" x:Name="SecondaryButton1" Label="secondary command 1" />
                 <AppBarButton x:Uid="SecondaryButton2" x:Name="SecondaryButton2" Label="secondary command 2" />
