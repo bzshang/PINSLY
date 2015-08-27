@@ -5,7 +5,9 @@
     xmlns:local="using:PIBand"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:data="using:PIBand.Data"
     mc:Ignorable="d"
+    DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid x:Name="LayoutRoot">
@@ -23,13 +25,88 @@
 
         <!-- Title Panel -->
         <StackPanel Grid.Row="0" Margin="19,0,0,0">
-            <TextBlock Text="PILY" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+            <TextBlock Text="PINSly" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
             <TextBlock Text="Edit settings" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
         </StackPanel>
 
         <!--TODO: Content should be placed within the following grid-->
-        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
-
+        <Grid
+            DataContext="{Binding Settings}"
+            d:DataContext="{Binding Source={d:DesignData Source=/DataModel/ConfigSettings.json, Type=data:ConfigSettings}}"
+            Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+            <StackPanel Margin="0,0,0,9.5">
+                 <TextBlock 
+                        Text="USERNAME"
+                        Pivot.SlideInAnimationGroup="1"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True"
+                        Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
+                        />
+                <TextBox
+                        x:Name="tbUsername"
+                        Text="{Binding Username}"
+                        Pivot.SlideInAnimationGroup="2"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
+                        />
+                <Border BorderBrush="Gray" BorderThickness="0,2,0,0" Grid.Row="0">
+                    <TextBlock 
+                        Text="PASSWORD"
+                        Pivot.SlideInAnimationGroup="1"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True"
+                        Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
+                        />
+                </Border>
+                <TextBox
+                        Text="{Binding Password}"
+                        Pivot.SlideInAnimationGroup="2"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
+                        />
+                <Border BorderBrush="Gray" BorderThickness="0,2,0,0" Grid.Row="0">
+                    <TextBlock 
+                        Text="PI Web API Server"
+                        Pivot.SlideInAnimationGroup="1"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True"
+                        Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
+                        />
+                </Border>
+                <TextBox
+                        Text="{Binding PIWebAPIServer}"
+                        Pivot.SlideInAnimationGroup="2"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
+                        />
+                <Border BorderBrush="Gray" BorderThickness="0,2,0,0" Grid.Row="0">
+                    <TextBlock 
+                        Text="AF Server"
+                        Pivot.SlideInAnimationGroup="1"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True"
+                        Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
+                        />
+                </Border>
+                <TextBox
+                        Text="{Binding AFServer}"
+                        Pivot.SlideInAnimationGroup="2"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
+                        />
+                <Border BorderBrush="Gray" BorderThickness="0,2,0,0" Grid.Row="0">
+                    <TextBlock 
+                        Text="PI Server"
+                        Pivot.SlideInAnimationGroup="1"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True"
+                        Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
+                        />
+                </Border>
+                <TextBox
+                        Text="{Binding PIServer}"
+                        Pivot.SlideInAnimationGroup="2"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
+                        />
+                <Border BorderBrush="Gray" BorderThickness="0,2,0,0" Grid.Row="0">
+                </Border>
+            </StackPanel>
         </Grid>
     </Grid>
+    <Page.BottomAppBar >
+        <CommandBar x:Name="bottomAppBar">
+            <AppBarButton x:Uid="SaveAppBarButton" x:Name="SaveAppBarButton" Label="save" Click="SaveAppBarButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Save" />
+        </CommandBar>
+    </Page.BottomAppBar>
 </Page>

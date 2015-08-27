@@ -97,7 +97,12 @@ namespace PIBand
         /// </summary>
         private void EditAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(EditPage));
+            tbUsername.IsEnabled = true;
+
+            EditAppBarButton.Visibility = Visibility.Collapsed;
+            SaveAppBarButton.Visibility = Visibility.Visible;
+
+            //Frame.Navigate(typeof(EditPage));
 
             //string groupName = this.pivot.SelectedIndex == 0 ? FirstGroupName : SecondGroupName;
             //var group = this.DefaultViewModel[groupName] as SampleDataGroup;
@@ -116,6 +121,25 @@ namespace PIBand
             //var container = this.pivot.ContainerFromIndex(this.pivot.SelectedIndex) as ContentControl;
             //var listView = container.ContentTemplateRoot as ListView;
             //listView.ScrollIntoView(newItem, ScrollIntoViewAlignment.Leading);
+        }
+
+        private void SaveAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Save settings
+            AppSettings.AddOrUpdateValue("Username", tbUsername.Text);
+
+            //Update UI
+            tbUsername.IsEnabled = false;
+            SaveAppBarButton.Visibility = Visibility.Collapsed;
+            EditAppBarButton.Visibility = Visibility.Visible;
+
+            //AppBarButton editButton = new AppBarButton();
+            //editButton.Icon = new SymbolIcon(Symbol.Edit);
+            //editButton.Label = "edit";
+            //editButton.Click += SaveAppBarButton_Click;
+
+            //bottomAppBar.PrimaryCommands.RemoveAt(0);
+            //bottomAppBar.PrimaryCommands.Insert(0, editButton);
         }
 
         /// <summary>
@@ -168,10 +192,12 @@ namespace PIBand
 
         #endregion
 
-        private async void Settings_Loaded(object sender, RoutedEventArgs e)
+        private void Settings_Loaded(object sender, RoutedEventArgs e)
         {
-            var sampleDataGroup = await SampleDataSource.GetGroupAsync("Settings");
-            this.DefaultViewModel[SettingsGroupName] = sampleDataGroup;
+            //var sampleDataGroup = await SampleDataSource.GetGroupAsync("Settings");
+            //this.DefaultViewModel[SettingsGroupName] = sampleDataGroup;
+
+            this.DefaultViewModel[SettingsGroupName] = AppSettings.GetSettings();
         }
 
         private void pivot_PivotItemLoaded(Pivot sender, PivotItemEventArgs args)
@@ -180,8 +206,7 @@ namespace PIBand
             {
                 bottomAppBar.Visibility = Visibility.Visible;
 
-                var settingsGroup = 
-                this.DefaultViewModel[SettingsGroupName] = 
+                
 
                 //AppBarButton editButton = new AppBarButton();
                 //editButton.Icon = new SymbolIcon(Symbol.Edit);

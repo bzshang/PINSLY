@@ -20,7 +20,7 @@
     </Page.Transitions>
 
     <Grid>
-        <Pivot x:Uid="Pivot" Title="PILY" x:Name="pivot" CommonNavigationTransitionInfo.IsStaggerElement="True" PivotItemLoaded="pivot_PivotItemLoaded">
+        <Pivot x:Uid="Pivot" Title="PINSly" x:Name="pivot" CommonNavigationTransitionInfo.IsStaggerElement="True" PivotItemLoaded="pivot_PivotItemLoaded">
             <!--Pivot item one-->
             <PivotItem
                 x:Uid="PivotItem1"
@@ -102,36 +102,84 @@
                 Margin="19,14.5,0,0"
                 Header="Settings"
                 DataContext="{Binding Settings}"
-                d:DataContext="{Binding Groups[5], Source={d:DesignData Source=/DataModel/SampleData.json, Type=data:SampleDataSource}}">
-                <!--Double line list no text wrapping-->
-                <ListView
-                    ItemsSource="{Binding Items}"
-                    IsItemClickEnabled="False"
-                    ContinuumNavigationTransitionInfo.ExitElementContainer="True" Loaded="Settings_Loaded">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Margin="0,0,0,9.5">
-                                <TextBlock
-                                    Text="{Binding Title}"
-                                    Pivot.SlideInAnimationGroup="1"
-                                    CommonNavigationTransitionInfo.IsStaggerElement="True"
-                                    Style="{StaticResource ListViewItemTextBlockStyle}"/>
-                                <TextBlock
-                                    Text="{Binding Description}"
-                                    Pivot.SlideInAnimationGroup="2"
-                                    CommonNavigationTransitionInfo.IsStaggerElement="True"
-                                    Style="{StaticResource ListViewItemContentTextBlockStyle}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                d:DataContext="{Binding Source={d:DesignData Source=/DataModel/ConfigSettings.json, Type=data:ConfigSettings}}" Loaded="Settings_Loaded">
+                <StackPanel Margin="0,0,0,9.5">
+                    <TextBlock 
+                        Text="USERNAME"
+                        Pivot.SlideInAnimationGroup="1"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True"
+                        Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
+                        />
+                    <TextBox
+                        x:Name="tbUsername"
+                        Text="{Binding Username}"
+                        Pivot.SlideInAnimationGroup="2"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10" IsEnabled="false"
+                        />
+                    <Border BorderBrush="Gray" BorderThickness="0,2,0,0" Grid.Row="0">
+                        <TextBlock 
+                        Text="PASSWORD"
+                        Pivot.SlideInAnimationGroup="1"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True"
+                        Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
+                        />
+                    </Border>
+                    <TextBlock
+                        Text="{Binding Password}"
+                        Pivot.SlideInAnimationGroup="2"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
+                        />
+                    <Border BorderBrush="Gray" BorderThickness="0,2,0,0" Grid.Row="0">
+                        <TextBlock 
+                        Text="PI Web API Server"
+                        Pivot.SlideInAnimationGroup="1"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True"
+                        Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
+                        />
+                    </Border>
+                    <TextBlock
+                        Text="{Binding PIWebAPIServer}"
+                        Pivot.SlideInAnimationGroup="2"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
+                        />
+                    <Border BorderBrush="Gray" BorderThickness="0,2,0,0" Grid.Row="0">
+                        <TextBlock 
+                        Text="AF Server"
+                        Pivot.SlideInAnimationGroup="1"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True"
+                        Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
+                        />
+                    </Border>
+                    <TextBlock
+                        Text="{Binding AFServer}"
+                        Pivot.SlideInAnimationGroup="2"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
+                        />
+                    <Border BorderBrush="Gray" BorderThickness="0,2,0,0" Grid.Row="0">
+                        <TextBlock 
+                        Text="PI Server"
+                        Pivot.SlideInAnimationGroup="1"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True"
+                        Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
+                        />
+                    </Border>
+                    <TextBlock
+                        Text="{Binding PIServer}"
+                        Pivot.SlideInAnimationGroup="2"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
+                        />
+                    <Border BorderBrush="Gray" BorderThickness="0,2,0,0" Grid.Row="0">
+                    </Border>
+                </StackPanel>
+
             </PivotItem>
         </Pivot>
     </Grid>
 
     <Page.BottomAppBar >
         <CommandBar x:Name="bottomAppBar" Visibility="Collapsed">
-            <AppBarButton x:Uid="AddAppBarButton" x:Name="AddAppBarButton" Label="edit" Click="EditAppBarButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Edit" />
+            <AppBarButton x:Uid="EditAppBarButton" x:Name="EditAppBarButton" Label="edit" Click="EditAppBarButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Edit" />
+            <AppBarButton x:Uid="SaveAppBarButton" x:Name="SaveAppBarButton" Label="edit" Click="SaveAppBarButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Save" Visibility="Collapsed"/>
             <!--<CommandBar.SecondaryCommands>
                 <AppBarButton x:Uid="SecondaryButton1" x:Name="SecondaryButton1" Label="secondary command 1" />
                 <AppBarButton x:Uid="SecondaryButton2" x:Name="SecondaryButton2" Label="secondary command 2" />

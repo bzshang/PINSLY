@@ -1,4 +1,5 @@
 ﻿using PIBand.Common;
+using PIBand.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -67,6 +68,8 @@ namespace PIBand
         /// session.  The state will be null the first time a page is visited.</param>
         private void NavigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
+            this.DefaultViewModel["Settings"] = AppSettings.GetSettings();
+
         }
 
         /// <summary>
@@ -107,5 +110,15 @@ namespace PIBand
         }
 
         #endregion
+
+        private void SaveAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Save settings
+            AppSettings.AddOrUpdateValue("Username", tbUsername.Text);
+
+
+            // Go back to settings
+            Frame.Navigate(typeof(PivotPage));
+        }
     }
 }
