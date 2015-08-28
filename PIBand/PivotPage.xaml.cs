@@ -23,6 +23,9 @@ using Windows.UI.Xaml.Navigation;
 using Windows.Devices.Sensors;
 using Windows.UI.Core;
 
+using Windows.Devices.Geolocation;
+using System.Threading.Tasks;
+
 // The Pivot Application template is documented at http://go.microsoft.com/fwlink/?LinkID=391641
 
 namespace PIBand
@@ -38,8 +41,9 @@ namespace PIBand
         private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
 
         private AccelerometerProvider acceleroProvider;
+        private GeoLocationProvider geoProvider;
 
-        private IDisposable token;
+        private IDisposable token, token2;
 
         public PivotPage()
         {
@@ -273,8 +277,11 @@ namespace PIBand
         {
             DataManager dataManager = new DataManager();
             acceleroProvider = new AccelerometerProvider();
+            geoProvider = new GeoLocationProvider();
 
-            token = acceleroProvider.SubscribeToObservable(OnObservableReadingChanged);
+            token = acceleroProvider.SubscribeToObservable(AcceleroReaction);
+            token2 = geoProvider.SubscribeToObservable(GeopositionReaction);
+
 
             //acceleroProvider.Subscribe(new TypedEventHandler<Accelerometer, AccelerometerReadingChangedEventArgs>(OnReadingChanged));
             //acceleroProvider.Start();
@@ -284,7 +291,25 @@ namespace PIBand
 
         }
 
-        private async void OnObservableReadingChanged(AccelerometerReadingChangedEventArgs args)
+        private async void GeopositionReaction(PositionChangedEventArgs geoTask)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                Geoposition geo = geoTask.Position;
+                double reading = geo.Coordinate.Timestamp.Second;
+                tbGeo.Text = String.Format("{0,5:0.00}", reading);
+            });
+
+            //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            //{
+            //    Geoposition geo = await geoTask;
+            //    double reading = geo.Coordinate.Timestamp.Second;
+            //    tbGeo.Text = String.Format("{0,5:0.00}", reading);
+            //});
+
+        }
+
+        private async void AcceleroReaction(AccelerometerReadingChangedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {

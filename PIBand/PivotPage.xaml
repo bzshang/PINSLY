@@ -102,6 +102,7 @@
                 Header="Data">
                 <Grid>
                     <TextBlock x:Name="tbAccelX" HorizontalAlignment="Left" Height="43" Margin="30,33,0,0" TextWrapping="Wrap" Text="AccelX" VerticalAlignment="Top" Width="146" FontSize="26.667" TextAlignment="Center"/>
+                    <TextBlock x:Name="tbGeo" HorizontalAlignment="Left" Height="43" Margin="30,80,0,0" TextWrapping="Wrap" Text="Geo" VerticalAlignment="Top" Width="146" FontSize="26.667" TextAlignment="Center"/>
                     <Button x:Name="btnStart" Content="Start" Height="90" Margin="70,0,0,25"  Width="90" Style="{StaticResource ButtonStyleCircle}" Click="btnStart_Click" VerticalAlignment="Bottom" Background="DarkGreen"/>
                     <Button x:Name="btnStop" Content="Stop" Height="90" Margin="0,0,85,25" Width="90" Style="{StaticResource ButtonStyleCircle}" Click="btnStop_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="#FF960000"/>
                 </Grid>
@@ -184,7 +185,7 @@
     <Page.BottomAppBar >
         <CommandBar x:Name="bottomAppBar" Visibility="Collapsed">
             <AppBarButton x:Uid="EditAppBarButton" x:Name="EditAppBarButton" Label="edit" Click="EditAppBarButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Edit" />
-            <AppBarButton x:Uid="BackAppBarButton" x:Name="BackAppBarButton" Label="edit" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Back" Visibility="Collapsed" Click="BackAppBarButton_Click"/>
+            <AppBarButton x:Uid="BackAppBarButton" x:Name="BackAppBarButton" Label="back" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Back" Visibility="Collapsed" Click="BackAppBarButton_Click"/>
             <AppBarButton x:Uid="SaveAppBarButton" x:Name="SaveAppBarButton" Label="edit" Click="SaveAppBarButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Save" Visibility="Collapsed"/>
             <!--<CommandBar.SecondaryCommands>
                 <AppBarButton x:Uid="SecondaryButton1" x:Name="SecondaryButton1" Label="secondary command 1" />

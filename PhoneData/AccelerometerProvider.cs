@@ -44,12 +44,12 @@ namespace PhoneData
             //ev => _accelero.ReadingChanged -= ev);
         }
 
-        public void AttachEvent(TypedEventHandler<Accelerometer, AccelerometerReadingChangedEventArgs> ev)
+        private void AttachEvent(TypedEventHandler<Accelerometer, AccelerometerReadingChangedEventArgs> ev)
         {
             _accelero.ReadingChanged += ev;
         }
 
-        public void DetachEvent(TypedEventHandler<Accelerometer, AccelerometerReadingChangedEventArgs> ev)
+        private void DetachEvent(TypedEventHandler<Accelerometer, AccelerometerReadingChangedEventArgs> ev)
         {
             _accelero.ReportInterval = 0;
             _accelero.ReadingChanged -= ev;
