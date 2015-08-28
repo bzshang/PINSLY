@@ -1,5 +1,6 @@
 ﻿using PIBand.Common;
 using PIBand.Data;
+using PhoneData;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,6 +20,9 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+using Windows.Devices.Sensors;
+using Windows.UI.Core;
+
 // The Pivot Application template is documented at http://go.microsoft.com/fwlink/?LinkID=391641
 
 namespace PIBand
@@ -32,6 +36,8 @@ namespace PIBand
         private readonly NavigationHelper navigationHelper;
         private readonly ObservableDictionary defaultViewModel = new ObservableDictionary();
         private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
+
+        private AccelerometerProvider acceleroProvider;
 
         public PivotPage()
         {
@@ -248,6 +254,11 @@ namespace PIBand
                 //editButton.Click += EditAppBarButton_Click;
                 //bottomAppBar.PrimaryCommands.Insert(0, editButton);
             }
+            else if (args.Item.Name == "Data")
+            {
+                btnStart.IsEnabled = true;
+                btnStop.IsEnabled = false;
+            }
             else
             {
                 bottomAppBar.Visibility = Visibility.Collapsed;
@@ -265,6 +276,35 @@ namespace PIBand
             }
         }
 
+        private void btnStart_Click(object sender, RoutedEventArgs e)
+        {
+            DataManager dataManager = new DataManager();
+            acceleroProvider = new AccelerometerProvider();
+            acceleroProvider.Subscribe(new TypedEventHandler<Accelerometer, AccelerometerReadingChangedEventArgs>(OnReadingChanged));
+            acceleroProvider.Start();
 
+            btnStart.IsEnabled = false;
+            btnStop.IsEnabled = true;
+
+        }
+
+        private async void OnReadingChanged(Accelerometer sender, AccelerometerReadingChangedEventArgs args)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                AccelerometerReading reading = args.Reading;
+                tbAccelX.Text = String.Format("{0,5:0.00}", reading.AccelerationX);
+            });
+
+        }
+
+        private void btnStop_Click(object sender, RoutedEventArgs e)
+        {   
+            btnStop.IsEnabled = false;
+            btnStart.IsEnabled = true;
+
+            acceleroProvider.Unsubscribe(new TypedEventHandler<Accelerometer, AccelerometerReadingChangedEventArgs>(OnReadingChanged));
+            acceleroProvider.Stop();
+        }
     }
 }
