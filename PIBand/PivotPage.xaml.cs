@@ -39,6 +39,8 @@ namespace PIBand
 
         private AccelerometerProvider acceleroProvider;
 
+        private IDisposable token;
+
         public PivotPage()
         {
             this.InitializeComponent();
@@ -226,14 +228,6 @@ namespace PIBand
 
         #endregion
 
-        private void Settings_Loaded(object sender, RoutedEventArgs e)
-        {
-            //var sampleDataGroup = await SampleDataSource.GetGroupAsync("Settings");
-            //this.DefaultViewModel[SettingsGroupName] = sampleDataGroup;
-
-            //this.DefaultViewModel[SettingsGroupName] = AppSettings.GetSettings();
-        }
-
         private void pivot_PivotItemLoaded(Pivot sender, PivotItemEventArgs args)
         {
             if (args.Item.Name == "Settings")
@@ -246,7 +240,6 @@ namespace PIBand
                 SaveAppBarButton.Visibility = Visibility.Collapsed;
                 BackAppBarButton.Visibility = Visibility.Collapsed;
                 EditAppBarButton.Visibility = Visibility.Visible;
-
 
                 //AppBarButton editButton = new AppBarButton();
                 //editButton.Icon = new SymbolIcon(Symbol.Edit);
@@ -280,11 +273,24 @@ namespace PIBand
         {
             DataManager dataManager = new DataManager();
             acceleroProvider = new AccelerometerProvider();
-            acceleroProvider.Subscribe(new TypedEventHandler<Accelerometer, AccelerometerReadingChangedEventArgs>(OnReadingChanged));
-            acceleroProvider.Start();
+
+            token = acceleroProvider.SubscribeToObservable(OnObservableReadingChanged);
+
+            //acceleroProvider.Subscribe(new TypedEventHandler<Accelerometer, AccelerometerReadingChangedEventArgs>(OnReadingChanged));
+            //acceleroProvider.Start();
 
             btnStart.IsEnabled = false;
             btnStop.IsEnabled = true;
+
+        }
+
+        private async void OnObservableReadingChanged(AccelerometerReadingChangedEventArgs args)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                AccelerometerReading reading = args.Reading;
+                tbAccelX.Text = String.Format("{0,5:0.00}", reading.AccelerationX);
+            });
 
         }
 
@@ -303,8 +309,10 @@ namespace PIBand
             btnStop.IsEnabled = false;
             btnStart.IsEnabled = true;
 
-            acceleroProvider.Unsubscribe(new TypedEventHandler<Accelerometer, AccelerometerReadingChangedEventArgs>(OnReadingChanged));
-            acceleroProvider.Stop();
+            token.Dispose();
+
+            //acceleroProvider.Unsubscribe(new TypedEventHandler<Accelerometer, AccelerometerReadingChangedEventArgs>(OnReadingChanged));
+            //acceleroProvider.Stop();
         }
     }
 }
