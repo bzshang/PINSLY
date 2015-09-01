@@ -8,7 +8,7 @@ namespace PhoneData
 {
     public interface IDataProvider
     {
-        void Start();
+        IDisposable SubscribeToObservable(Action method);
 
     }
 }

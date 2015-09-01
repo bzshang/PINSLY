@@ -2,6 +2,7 @@
 using PIBand.Data;
 using PhoneData;
 using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -24,7 +25,6 @@ using Windows.Devices.Sensors;
 using Windows.UI.Core;
 
 using Windows.Devices.Geolocation;
-using System.Threading.Tasks;
 
 // The Pivot Application template is documented at http://go.microsoft.com/fwlink/?LinkID=391641
 
@@ -40,10 +40,8 @@ namespace PIBand
         private readonly ObservableDictionary defaultViewModel = new ObservableDictionary();
         private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
 
-        private AccelerometerProvider acceleroProvider;
-        private GeoLocationProvider geoProvider;
-
-        private IDisposable token, token2;
+        private DataSubscription _viewDataSubscription;
+        private DataProcessor _dataProcessor;
 
         public PivotPage()
         {
@@ -54,6 +52,10 @@ namespace PIBand
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
+
+            _viewDataSubscription = new DataSubscription();
+            _dataProcessor = new DataProcessor();
+
         }
 
         /// <summary>
@@ -275,13 +277,10 @@ namespace PIBand
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
-            DataManager dataManager = new DataManager();
-            acceleroProvider = new AccelerometerProvider();
-            geoProvider = new GeoLocationProvider();
+            _viewDataSubscription.SubscribeToAccelerometer(OnAccelerometerReading);
+            _viewDataSubscription.SubscribeToGeolocation(OnGeopositionReading);
 
-            token = acceleroProvider.SubscribeToObservable(AcceleroReaction);
-            token2 = geoProvider.SubscribeToObservable(GeopositionReaction);
-
+            _dataProcessor.Start();
 
             //acceleroProvider.Subscribe(new TypedEventHandler<Accelerometer, AccelerometerReadingChangedEventArgs>(OnReadingChanged));
             //acceleroProvider.Start();
@@ -291,11 +290,11 @@ namespace PIBand
 
         }
 
-        private async void GeopositionReaction(PositionChangedEventArgs geoTask)
+        private async void OnGeopositionReading(PositionChangedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                Geoposition geo = geoTask.Position;
+                Geoposition geo = args.Position;
                 double reading = geo.Coordinate.Timestamp.Second;
                 tbGeo.Text = String.Format("{0,5:0.00}", reading);
             });
@@ -309,7 +308,7 @@ namespace PIBand
 
         }
 
-        private async void AcceleroReaction(AccelerometerReadingChangedEventArgs args)
+        private async void OnAccelerometerReading(AccelerometerReadingChangedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
@@ -334,10 +333,7 @@ namespace PIBand
             btnStop.IsEnabled = false;
             btnStart.IsEnabled = true;
 
-            token.Dispose();
-
-            //acceleroProvider.Unsubscribe(new TypedEventHandler<Accelerometer, AccelerometerReadingChangedEventArgs>(OnReadingChanged));
-            //acceleroProvider.Stop();
+            _viewDataSubscription.RemoveSubscription();
         }
     }
 }

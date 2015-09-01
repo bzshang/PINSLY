@@ -81,13 +81,16 @@
   <ItemGroup>
     <Compile Include="AbstractDataProvider.cs" />
     <Compile Include="AccelerometerProvider.cs" />
-    <Compile Include="AccelerometerReceiver.cs" />
+    <Compile Include="DataSubscription.cs" />
     <Compile Include="DataManager.cs" />
+    <Compile Include="DataProcessor.cs" />
     <Compile Include="DataRetriever.cs" />
     <Compile Include="EventItem.cs" />
     <Compile Include="EventQueue.cs" />
     <Compile Include="GeoLocationProvider.cs" />
     <Compile Include="IDataProvider.cs" />
+    <Compile Include="QueueConsumer.cs" />
+    <Compile Include="QueueProducer.cs" />
     <Compile Include="Stream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
