@@ -40,7 +40,7 @@ namespace PIBand
         private readonly ObservableDictionary defaultViewModel = new ObservableDictionary();
         private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
 
-        private DataSubscription _viewDataSubscription;
+        private DataClient _viewDataSubscription;
         private DataProcessor _dataProcessor;
 
         public PivotPage()
@@ -53,7 +53,7 @@ namespace PIBand
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
 
-            _viewDataSubscription = new DataSubscription();
+            _viewDataSubscription = new DataClient();
             _dataProcessor = new DataProcessor();
 
         }

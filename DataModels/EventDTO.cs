@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataSender
+namespace DataModels
 {
-    public class PISender
+    public class EventDTO
     {
+        public string Timestamp { get; set; }
+        public string Value { get; set; }
     }
 }

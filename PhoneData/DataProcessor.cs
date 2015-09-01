@@ -10,19 +10,19 @@ namespace PhoneData
     {
         private EventQueue _queue;
         private QueueProducer _queueProducer;
-        private QueueConsumer _queueConsumer;
+        private QueueConsumersManager _queueConsumers;
 
         public DataProcessor()
         {
             _queue = new EventQueue();
             _queueProducer = new QueueProducer(_queue);
-            _queueConsumer = new QueueConsumer(_queue);
+            _queueConsumers = new QueueConsumersManager(_queue);
         }
 
         public void Start()
         {
             Task.Run(() => _queueProducer.SubscribeAndProduce());
-            Task.Run(() => _queueConsumer.Consume());
+            Task.Run(() => _queueConsumers.BeginConsume());
         }
     }
 }

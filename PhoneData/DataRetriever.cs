@@ -9,21 +9,21 @@ namespace PhoneData
 {
     public class DataRetriever
     {
-        private IList<Stream> _streams;
+        private IList<PIStream> _streams;
 
         public DataRetriever()
         {
-            _streams = new List<Stream>();
+            _streams = new List<PIStream>();
         }
 
-        public void Add(Stream str)
+        public void Add(PIStream str)
         {
             _streams.Add(str);
         }
 
         public void GetData()
         {
-            foreach (Stream str in _streams)
+            foreach (PIStream str in _streams)
             {
                 str.GetData();
             }

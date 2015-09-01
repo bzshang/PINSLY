@@ -11,13 +11,13 @@ using Windows.Devices.Sensors;
 
 namespace PhoneData
 {
-    public class DataSubscription
+    public class DataClient
     {
         private DataManager _dataManager;
 
         private IList<IDisposable> _tokens;
 
-        public DataSubscription()
+        public DataClient()
         {
             _dataManager = DataManager.Instance;
             _tokens = new List<IDisposable>();

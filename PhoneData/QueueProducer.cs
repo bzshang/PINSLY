@@ -9,6 +9,8 @@ using Windows.Devices.Geolocation;
 
 using System.Diagnostics;
 
+using DataModels;
+
 namespace PhoneData
 {
     public class QueueProducer
@@ -19,18 +21,18 @@ namespace PhoneData
 
         private EventQueue _queue;
 
-        private DataSubscription _dataSubscription;
+        private DataClient _dataClient;
 
         public QueueProducer(EventQueue queue)
         {
-            _dataSubscription = new DataSubscription();
+            _dataClient = new DataClient();
             _queue = queue;
         }
 
         public void SubscribeAndProduce()
         {
-            _dataSubscription.SubscribeToAccelerometer(OnAccelerometerReading);
-            _dataSubscription.SubscribeToGeolocation(OnGeopositionReading);
+            _dataClient.SubscribeToAccelerometer(OnAccelerometerReading);
+            _dataClient.SubscribeToGeolocation(OnGeopositionReading);
         }
 
         private void OnAccelerometerReading(AccelerometerReadingChangedEventArgs args)
@@ -38,10 +40,11 @@ namespace PhoneData
             AccelerometerReading reading = args.Reading;
             DateTimeOffset ts = reading.Timestamp;
             EventItem accX = new EventItem { StreamName = "accX", Timestamp = ts, Value = reading.AccelerationX };
-            EventItem accY = new EventItem { StreamName = "accY", Timestamp = ts, Value = reading.AccelerationY };
-            EventItem accZ = new EventItem { StreamName = "accZ", Timestamp = ts, Value = reading.AccelerationZ };
+            //EventItem accY = new EventItem { StreamName = "accY", Timestamp = ts, Value = reading.AccelerationY };
+            //EventItem accZ = new EventItem { StreamName = "accZ", Timestamp = ts, Value = reading.AccelerationZ };
 
-            IList<EventItem> events = new[] { accX, accY, accZ };
+            IList<EventItem> events = new[] { accX };
+            //IList<EventItem> events = new[] { accX, accY, accZ };
             Debug.WriteLine(DateTime.Now);
             SendToQueue(events);
         }
