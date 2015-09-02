@@ -68,7 +68,7 @@ namespace PIBand
         /// session.  The state will be null the first time a page is visited.</param>
         private void NavigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
-            this.DefaultViewModel["Settings"] = AppSettings.GetSettings();
+            this.DefaultViewModel["Settings"] = AppSettingsManager.GetUserSettings();
 
         }
 
@@ -114,12 +114,11 @@ namespace PIBand
         private void SaveAppBarButton_Click(object sender, RoutedEventArgs e)
         {
             //Save settings
-            AppSettings.AddOrUpdateValue("Username", tbUsername.Text);
-            AppSettings.AddOrUpdateValue("Password", tbPassword.Text);
-            AppSettings.AddOrUpdateValue("PI Web API Server", tbPIWebAPIServer.Text);
-            AppSettings.AddOrUpdateValue("AF Server", tbAFServer.Text);
-            AppSettings.AddOrUpdateValue("PI Server", tbPIServer.Text);
-
+            AppSettingsManager.AddOrUpdateValue("Username", tbUsername.Text);
+            AppSettingsManager.AddOrUpdateValue("Password", tbPassword.Text);
+            AppSettingsManager.AddOrUpdateValue("PI Web API Server", tbPIWebAPIServer.Text);
+            AppSettingsManager.AddOrUpdateValue("AF Server", tbAFServer.Text);
+            AppSettingsManager.AddOrUpdateValue("PI Server", tbPIServer.Text);
 
             // Go back to settings
             Frame.Navigate(typeof(PivotPage));

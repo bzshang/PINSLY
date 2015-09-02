@@ -41,7 +41,7 @@ namespace PIBand
         private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
 
         private DataClient _viewDataSubscription;
-        private DataProcessor _dataProcessor;
+        private PhoneDataController _phoneDataController;
 
         public PivotPage()
         {
@@ -54,8 +54,6 @@ namespace PIBand
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
 
             _viewDataSubscription = new DataClient();
-            _dataProcessor = new DataProcessor();
-
         }
 
         /// <summary>
@@ -151,13 +149,13 @@ namespace PIBand
         private void SaveAppBarButton_Click(object sender, RoutedEventArgs e)
         {
             //Save settings
-            AppSettings.AddOrUpdateValue("Username", tbUsername.Text);
-            AppSettings.AddOrUpdateValue("Password", tbPassword.Text);
-            AppSettings.AddOrUpdateValue("PI Web API Server", tbPIWebAPIServer.Text);
-            AppSettings.AddOrUpdateValue("AF Server", tbAFServer.Text);
-            AppSettings.AddOrUpdateValue("PI Server", tbPIWebAPIServer.Text);
+            AppSettingsManager.AddOrUpdateValue("Username", tbUsername.Text);
+            AppSettingsManager.AddOrUpdateValue("Password", tbPassword.Text);
+            AppSettingsManager.AddOrUpdateValue("PI Web API Server", tbPIWebAPIServer.Text);
+            AppSettingsManager.AddOrUpdateValue("AF Server", tbAFServer.Text);
+            AppSettingsManager.AddOrUpdateValue("PI Server", tbPIWebAPIServer.Text);
 
-            this.DefaultViewModel[SettingsGroupName] = AppSettings.GetSettings();
+            this.DefaultViewModel[SettingsGroupName] = AppSettingsManager.GetUserSettings();
             //Update UI
             EnableTextBoxes(false);
             SaveAppBarButton.Visibility = Visibility.Collapsed;
@@ -175,7 +173,7 @@ namespace PIBand
 
         private void BackAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            this.DefaultViewModel[SettingsGroupName] = AppSettings.GetSettings();
+            this.DefaultViewModel[SettingsGroupName] = AppSettingsManager.GetUserSettings();
 
             //Update UI
             EnableTextBoxes(false);
@@ -238,7 +236,7 @@ namespace PIBand
         {
             if (args.Item.Name == "Settings")
             {
-                this.DefaultViewModel[SettingsGroupName] = AppSettings.GetSettings();
+                this.DefaultViewModel[SettingsGroupName] = AppSettingsManager.GetUserSettings();
 
                 bottomAppBar.Visibility = Visibility.Visible;
                 //Update UI
@@ -280,15 +278,14 @@ namespace PIBand
             _viewDataSubscription.SubscribeToAccelerometer(OnAccelerometerReading);
             _viewDataSubscription.SubscribeToGeolocation(OnGeopositionReading);
 
-            _dataProcessor.Start();
-
-            //acceleroProvider.Subscribe(new TypedEventHandler<Accelerometer, AccelerometerReadingChangedEventArgs>(OnReadingChanged));
-            //acceleroProvider.Start();
+            _phoneDataController = new PhoneDataController();
+            _phoneDataController.Initialize();
 
             btnStart.IsEnabled = false;
             btnStop.IsEnabled = true;
-
         }
+
+
 
         private async void OnGeopositionReading(PositionChangedEventArgs args)
         {
@@ -328,8 +325,12 @@ namespace PIBand
 
         }
 
-        private void btnStop_Click(object sender, RoutedEventArgs e)
-        {   
+        private async void btnStop_Click(object sender, RoutedEventArgs e)
+        {
+            await _phoneDataController.Close();
+
+
+
             btnStop.IsEnabled = false;
             btnStart.IsEnabled = true;
 

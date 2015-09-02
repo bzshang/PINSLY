@@ -15,24 +15,25 @@ namespace PhoneData
 {
     public class QueueProducer
     {
-        //private static readonly Lazy<QueueProducer> lazy = new Lazy<QueueProducer>(() => new QueueProducer());
-
-        //public static QueueProducer Instance { get { return lazy.Value; } }
-
         private EventQueue _queue;
 
         private DataClient _dataClient;
 
-        public QueueProducer(EventQueue queue)
+        private DataContext _dataContext;
+
+        public QueueProducer(EventQueue queue, DataContext dataContext)
         {
             _dataClient = new DataClient();
             _queue = queue;
+            _dataContext = dataContext;
         }
 
         public void SubscribeAndProduce()
         {
-            _dataClient.SubscribeToAccelerometer(OnAccelerometerReading);
-            _dataClient.SubscribeToGeolocation(OnGeopositionReading);
+            if (_dataContext.AccelerometerEnabled)
+                _dataClient.SubscribeToAccelerometer(OnAccelerometerReading);
+            if (_dataContext.GeopositionEnabled)
+                _dataClient.SubscribeToGeolocation(OnGeopositionReading);
         }
 
         private void OnAccelerometerReading(AccelerometerReadingChangedEventArgs args)
@@ -45,7 +46,7 @@ namespace PhoneData
 
             IList<EventItem> events = new[] { accX };
             //IList<EventItem> events = new[] { accX, accY, accZ };
-            Debug.WriteLine(DateTime.Now);
+            //Debug.WriteLine(DateTime.Now);
             SendToQueue(events);
         }
 
@@ -63,15 +64,22 @@ namespace PhoneData
 
             IList<EventItem> events = new[] { latEvent, lngEvent };
 
-            SendToQueue(events);
+            //SendToQueue(events);
         }
 
         private void SendToQueue(IList<EventItem> events)
         {
             foreach (EventItem eventItem in events)
             {
-                _queue.Add(eventItem);
+                if (!_queue.IsAddingCompleted)
+                    _queue.Add(eventItem);
             }
+        }
+
+        public void Cleanup()
+        {       
+            _dataClient.RemoveSubscription();
+            _queue.CompleteAdding();
         }
 
     }

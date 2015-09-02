@@ -14,6 +14,14 @@ namespace PhoneData
     {
         private BlockingCollection<EventItem> _blockingQueue;
 
+        public bool IsAddingCompleted
+        {
+            get
+            {
+                return _blockingQueue.IsAddingCompleted;
+            }
+        }
+
         public EventQueue()
         {
             _blockingQueue = new BlockingCollection<EventItem>(1000);
@@ -35,10 +43,12 @@ namespace PhoneData
         }
 
 
-        public bool Continue()
+        public void CompleteAdding()
         {
-            return !_blockingQueue.IsCompleted;
+            _blockingQueue.CompleteAdding();
         }
+
+       
 
     }
 }
