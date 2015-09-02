@@ -82,7 +82,7 @@ namespace PIBand.Data
         {
             return new DataSettings(
                 GetValueOrDefault("Accelerometer", true),
-                GetValueOrDefault("Accelerometer", true));
+                GetValueOrDefault("Geoposition", true));
         }
     }
 

@@ -43,17 +43,12 @@ namespace PhoneData
 
         public async Task Stop()
         {
-            _cts.Cancel();
-
-            //await _producer.ContinueWith(t => CleanupProducer(), TaskContinuationOptions.OnlyOnFaulted);
-            //await _consumer.ContinueWith(t => CleanupConsumer(), TaskContinuationOptions.OnlyOnFaulted);
+            //_cts.Cancel();
 
             CleanupProducer();
-            CleanupConsumer();
+            await CleanupConsumer();
 
-            await _consumer;
-
-            _cts.Dispose();
+            //_cts.Dispose();
         }
 
         private void CleanupProducer()
@@ -61,8 +56,9 @@ namespace PhoneData
             _queueProducer.Cleanup();
         }
 
-        private void CleanupConsumer()
+        private async Task CleanupConsumer()
         {
+            await _consumer;
             _queueConsumers.Cleanup();
         }
     }

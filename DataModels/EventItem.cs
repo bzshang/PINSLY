@@ -8,7 +8,7 @@ namespace DataModels
 {
     public class EventItem
     {
-        public string StreamName { get; set; }
+        public StreamsEnum Stream { get; set; }
         public DateTimeOffset Timestamp { get; set; }
         public double Value { get; set; }
 
