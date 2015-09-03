@@ -18,6 +18,10 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
+using Windows.Storage;
+
+using PIBand.Data;
+
 // The Pivot Application template is documented at http://go.microsoft.com/fwlink/?LinkID=391641
 
 namespace PIBand
@@ -116,6 +120,16 @@ namespace PIBand
 
             // Ensure the current window is active.
             Window.Current.Activate();
+
+            InitializeSettings();
+        }
+
+        private void InitializeSettings()
+        {
+            AppSettings localSettings = AppSettingsManager.Instance.LocalSettings;
+            AppSettings users = localSettings.CreateContainer("Users", ApplicationDataCreateDisposition.Always);
+            AppSettings appSettings = localSettings.CreateContainer("Global", ApplicationDataCreateDisposition.Always);
+            appSettings.AddOrUpdateValue("LastUser", null);
         }
 
         /// <summary>

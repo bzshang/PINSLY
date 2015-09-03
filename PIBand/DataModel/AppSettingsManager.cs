@@ -1,90 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Windows.Storage;
+
+using PIBand;
 
 namespace PIBand.Data
 {
-    public static class AppSettingsManager
+    public sealed class AppSettingsManager
     {
-        private static ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
-        private static string _containerName = "appContainer";
+        // http://csharpindepth.com/articles/general/singleton.aspx
+        public AppSettings LocalSettings { get; }
 
-        private static ApplicationDataContainer container = _localSettings.CreateContainer(_containerName, ApplicationDataCreateDisposition.Always);
+        private static readonly AppSettingsManager instance = new AppSettingsManager();
 
-        public static T GetValueOrDefault<T>(string key, T defaultValue)
+        // Explicit static constructor to tell C# compiler
+        // not to mark type as beforefieldinit
+        static AppSettingsManager()
         {
-            T value;
+        }
 
-            bool hasContainer = _localSettings.Containers.ContainsKey(_containerName);
+        private AppSettingsManager()
+        {
+            LocalSettings = new AppSettings(ApplicationData.Current.LocalSettings);
+        }
 
-            if (hasContainer)
+        public static AppSettingsManager Instance
+        {
+            get
             {
-                if (_localSettings.Containers[_containerName].Values.ContainsKey(key))
-                {
-                    value = (T)_localSettings.Containers[_containerName].Values[key];
-                }
-                else
-                {
-                    value = defaultValue;
-                }
-                return value;
+                return instance;
             }
-
-            return defaultValue;
         }
 
-        public static bool AddOrUpdateValue(string key, Object value)
-        {
-            bool valueChanged = false;
+        //public void Add(string name)
+        //{
+        //    _settings.Add(name, new AppSettings(name));
+        //}
 
-            bool hasContainer = _localSettings.Containers.ContainsKey(_containerName);
+        //public void Remove(string name)
+        //{
+        //    _settings.Remove(name);
+        //}
 
-            if (hasContainer)
-            {
-                var dict = _localSettings.Containers[_containerName].Values;
-                // If the key exists
-                if (dict.ContainsKey(key))
-                {
-                    // If the value has changed
-                    if (dict[key] != value)
-                    {
-                        // Store the new value
-                        dict[key] = value;
-                        valueChanged = true;
-                    }
-                }
-                // Otherwise create the key.
-                else
-                {
-                    dict.Add(key, value);
-                    valueChanged = true;
-                }
-            }
+        //public AppSettings this[string name]
+        //{
+        //    get
+        //    {
+        //        return _settings[name];
+        //    }         
+        //}
 
-            return valueChanged;
-        }
 
-        public static UserSettings GetUserSettings()
-        {
-            return new UserSettings(
-                GetValueOrDefault("Username", "PINSly_user"),
-                GetValueOrDefault("Password", "secret"),
-                GetValueOrDefault("PI Web API Server", "osiproghack01.cloudapp.net"),
-                GetValueOrDefault("AF Server", "testAFServer"),
-                GetValueOrDefault("PI Server", "testPIServer"));
-        }
-
-        public static DataSettings GetDataSettings()
-        {
-            return new DataSettings(
-                GetValueOrDefault("Accelerometer", true),
-                GetValueOrDefault("Geoposition", true));
-        }
     }
-
-
 }

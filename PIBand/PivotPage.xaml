@@ -184,7 +184,8 @@
 
     <Page.BottomAppBar >
         <CommandBar x:Name="bottomAppBar" Visibility="Collapsed">
-            <AppBarButton x:Uid="EditAppBarButton" x:Name="EditAppBarButton" Label="edit" Click="EditAppBarButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Edit" />
+            <AppBarButton x:Uid="SettingsAppBarButton" x:Name="SettingsAppBarButton" Label="settings" Click="SettingsAppBarButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Setting" />
+            <AppBarButton x:Uid="EditAppBarButton" x:Name="EditAppBarButton" Label="edit" Click="EditAppBarButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Edit" Visibility="Collapsed"/>
             <AppBarButton x:Uid="BackAppBarButton" x:Name="BackAppBarButton" Label="back" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Back" Visibility="Collapsed" Click="BackAppBarButton_Click"/>
             <AppBarButton x:Uid="SaveAppBarButton" x:Name="SaveAppBarButton" Label="edit" Click="SaveAppBarButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Save" Visibility="Collapsed"/>
             <!--<CommandBar.SecondaryCommands>

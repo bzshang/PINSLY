@@ -101,11 +101,14 @@
     <Compile Include="Common\ObservableDictionary.cs" />
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
+    <Compile Include="DataModel\AppSettings.cs" />
     <Compile Include="DataModel\AppSettingsManager.cs" />
     <Compile Include="DataModel\PhoneDataController.cs" />
+    <Compile Include="DataModel\SettingsEnum.cs" />
     <Compile Include="DataModel\UserSettings.cs" />
     <Compile Include="DataModel\SampleDataSource.cs" />
     <Compile Include="DataModel\DataSettings.cs" />
+    <Compile Include="DataModel\UserSettingsFactory.cs" />
     <Compile Include="EditPage.xaml.cs">
       <DependentUpon>EditPage.xaml</DependentUpon>
     </Compile>

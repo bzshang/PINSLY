@@ -36,8 +36,8 @@ namespace PIBand.Data
 
         private SessionContext GetSessionContext()
         {
-            UserSettings userSettings = AppSettingsManager.GetUserSettings();
-            DataSettings dataSettings = AppSettingsManager.GetDataSettings();
+            UserSettings userSettings = AppSettings.GetUserSettings();
+            DataSettings dataSettings = AppSettings.GetDataSettings();
 
             UserContext userContext = new UserContext
             {
