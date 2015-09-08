@@ -82,7 +82,6 @@
     <Compile Include="AbstractDataProvider.cs" />
     <Compile Include="AccelerometerProvider.cs" />
     <Compile Include="DataClient.cs" />
-    <Compile Include="DataContext.cs" />
     <Compile Include="DataManager.cs" />
     <Compile Include="DataProcessor.cs" />
     <Compile Include="EventQueue.cs" />
@@ -94,7 +93,6 @@
     <Compile Include="QueueProducer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionContext.cs" />
-    <Compile Include="UserContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

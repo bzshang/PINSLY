@@ -127,9 +127,11 @@ namespace PIBand
         private void InitializeSettings()
         {
             AppSettings localSettings = AppSettingsManager.Instance.LocalSettings;
-            AppSettings users = localSettings.CreateContainer("Users", ApplicationDataCreateDisposition.Always);
-            AppSettings appSettings = localSettings.CreateContainer("Global", ApplicationDataCreateDisposition.Always);
-            appSettings.AddOrUpdateValue("LastUser", null);
+            AppSettings userSettings = localSettings.CreateContainer("UserSettings", ApplicationDataCreateDisposition.Always);
+            AppSettings phoneSettings = localSettings.CreateContainer("PhoneSettings", ApplicationDataCreateDisposition.Always);
+            AppSettings bandSettings = localSettings.CreateContainer("BandSettings", ApplicationDataCreateDisposition.Always);
+            AppSettings webIDSettings = localSettings.CreateContainer("WebIDs", ApplicationDataCreateDisposition.Always);
+
         }
 
         /// <summary>

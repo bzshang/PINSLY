@@ -38,7 +38,6 @@ namespace PhoneData
 
             _producer = Task.Run(() => _queueProducer.SubscribeAndProduce(), _cts.Token);
             _consumer = Task.Run(async () => await _queueConsumers.BeginConsume(), _cts.Token);
-
         }
 
         public async Task Stop()

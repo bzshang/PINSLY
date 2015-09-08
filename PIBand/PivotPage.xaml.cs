@@ -55,7 +55,7 @@ namespace PIBand
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
 
-            _viewDataSubscription = new DataClient();
+            
         }
 
         /// <summary>
@@ -109,14 +109,14 @@ namespace PIBand
         /// <summary>
         /// Adds an item to the list when the app bar button is clicked.
         /// </summary>
-        private void EditAppBarButton_Click(object sender, RoutedEventArgs e)
-        {
+        //private void EditAppBarButton_Click(object sender, RoutedEventArgs e)
+        //{
 
-            EnableTextBoxes(true);
+            //EnableTextBoxes(true);
 
-            EditAppBarButton.Visibility = Visibility.Collapsed;
-            SaveAppBarButton.Visibility = Visibility.Visible;
-            BackAppBarButton.Visibility = Visibility.Visible;
+            //EditAppBarButton.Visibility = Visibility.Collapsed;
+            //SaveAppBarButton.Visibility = Visibility.Visible;
+            //BackAppBarButton.Visibility = Visibility.Visible;
 
             //Frame.Navigate(typeof(EditPage));
 
@@ -137,37 +137,37 @@ namespace PIBand
             //var container = this.pivot.ContainerFromIndex(this.pivot.SelectedIndex) as ContentControl;
             //var listView = container.ContentTemplateRoot as ListView;
             //listView.ScrollIntoView(newItem, ScrollIntoViewAlignment.Leading);
-        }
+        //}
 
-        private void EnableTextBoxes(bool isEnable)
-        {
-            tbUsername.IsEnabled = isEnable;
-            tbPassword.IsEnabled = isEnable;
-            tbPIWebAPIServer.IsEnabled = isEnable;
-            tbAFServer.IsEnabled = isEnable;
-            tbPIServer.IsEnabled = isEnable;
-        }
+        //private void EnableTextBoxes(bool isEnable)
+        //{
+        //    tbUsername.IsEnabled = isEnable;
+        //    tbPassword.IsEnabled = isEnable;
+        //    tbPIWebAPIServer.IsEnabled = isEnable;
+        //    tbAFServer.IsEnabled = isEnable;
+        //    tbPIServer.IsEnabled = isEnable;
+        //}
 
-        private void SaveAppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            AppSettings userSettings = AppSettingsManager.Instance.LocalSettings.Containers["Users"];
+        //private void SaveAppBarButton_Click(object sender, RoutedEventArgs e)
+        //{
+            //AppSettings userSettings = AppSettingsManager.Instance.LocalSettings.Containers["Users"];
 
-            AppSettings userSettings = localSettings.Settings[tbUsername.Text];
+            //AppSettings userSettings = localSettings.Settings[tbUsername.Text];
 
             //Save settings
-            userSettings.AddOrUpdateValue("Username", tbUsername.Text);
-            userSettings.AddOrUpdateValue("Password", tbPassword.Text);
-            userSettings.AddOrUpdateValue("PI Web API Server", tbPIWebAPIServer.Text);
-            userSettings.AddOrUpdateValue("AF Server", tbAFServer.Text);
-            userSettings.AddOrUpdateValue("PI Server", tbPIWebAPIServer.Text);
+            //userSettings.AddOrUpdateValue("Username", tbUsername.Text);
+            //userSettings.AddOrUpdateValue("Password", tbPassword.Text);
+            //userSettings.AddOrUpdateValue("PI Web API Server", tbPIWebAPIServer.Text);
+            //userSettings.AddOrUpdateValue("AF Server", tbAFServer.Text);
+            //userSettings.AddOrUpdateValue("PI Server", tbPIWebAPIServer.Text);
 
-            this.DefaultViewModel[SettingsGroupName] = AppSettings.GetUserSettings();
+            //this.DefaultViewModel[SettingsGroupName] = AppSettings.GetUserSettings();
 
             //Update UI
-            EnableTextBoxes(false);
-            SaveAppBarButton.Visibility = Visibility.Collapsed;
-            BackAppBarButton.Visibility = Visibility.Collapsed;
-            EditAppBarButton.Visibility = Visibility.Visible;
+            //EnableTextBoxes(false);
+            //SaveAppBarButton.Visibility = Visibility.Collapsed;
+            //BackAppBarButton.Visibility = Visibility.Collapsed;
+            //EditAppBarButton.Visibility = Visibility.Visible;
 
             //AppBarButton editButton = new AppBarButton();
             //editButton.Icon = new SymbolIcon(Symbol.Edit);
@@ -176,18 +176,18 @@ namespace PIBand
 
             //bottomAppBar.PrimaryCommands.RemoveAt(0);
             //bottomAppBar.PrimaryCommands.Insert(0, editButton);
-        }
+        //}
 
-        private void BackAppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.DefaultViewModel[SettingsGroupName] = AppSettings.GetUserSettings();
+        //private void BackAppBarButton_Click(object sender, RoutedEventArgs e)
+        //{
+            //this.DefaultViewModel[SettingsGroupName] = AppSettings.GetUserSettings();
 
             //Update UI
-            EnableTextBoxes(false);
-            SaveAppBarButton.Visibility = Visibility.Collapsed;
-            BackAppBarButton.Visibility = Visibility.Collapsed;
-            EditAppBarButton.Visibility = Visibility.Visible;
-        }
+            //EnableTextBoxes(false);
+            //SaveAppBarButton.Visibility = Visibility.Collapsed;
+            //BackAppBarButton.Visibility = Visibility.Collapsed;
+            //EditAppBarButton.Visibility = Visibility.Visible;
+        //}
 
         /// <summary>
         /// Invoked when an item within a section is clicked.
@@ -241,41 +241,42 @@ namespace PIBand
 
         private void pivot_PivotItemLoaded(Pivot sender, PivotItemEventArgs args)
         {
-            if (args.Item.Name == "Settings")
-            {
-                string currentUser = AppSettingsManager.Instance.LocalSettings.Containers["Global"].Values["LastUser"] as string;
-                AppSettings curentUserSettings = AppSettingsManager.Instance.LocalSettings.Containers["Users"].Values[currentUser] as AppSettings;
+            //if (args.Item.Name == "Settings")
+            //{
+                //string currentUser = AppSettingsManager.Instance.LocalSettings.Containers["Global"].Values["LastUser"] as string;
+                //AppSettings curentUserSettings = AppSettingsManager.Instance.LocalSettings.Containers["Users"].Values[currentUser] as AppSettings;
 
-                if (curentUserSettings == null)
-                {
-                    this.DefaultViewModel[SettingsGroupName] = null;
+                //if (curentUserSettings == null)
+                //{
+                //    this.DefaultViewModel[SettingsGroupName] = null;
 
-                }
+                //}
 
                 this.DefaultViewModel[SettingsGroupName] = null;
 
                 bottomAppBar.Visibility = Visibility.Visible;
 
                 //Update UI
-                EnableTextBoxes(false);
-                SaveAppBarButton.Visibility = Visibility.Collapsed;
-                BackAppBarButton.Visibility = Visibility.Collapsed;
-                EditAppBarButton.Visibility = Visibility.Visible;
+                //EnableTextBoxes(false);
+                //SaveAppBarButton.Visibility = Visibility.Collapsed;
+                //BackAppBarButton.Visibility = Visibility.Collapsed;
+                //EditAppBarButton.Visibility = Visibility.Visible;
 
                 //AppBarButton editButton = new AppBarButton();
                 //editButton.Icon = new SymbolIcon(Symbol.Edit);
                 //editButton.Label = "Edit";
                 //editButton.Click += EditAppBarButton_Click;
                 //bottomAppBar.PrimaryCommands.Insert(0, editButton);
-            }
-            else if (args.Item.Name == "Data")
+            //}
+            if (args.Item.Name == "Data")
             {
                 btnStart.IsEnabled = true;
                 btnStop.IsEnabled = false;
+                bottomAppBar.Visibility = Visibility.Visible;
             }
             else
             {
-                bottomAppBar.Visibility = Visibility.Collapsed;
+                bottomAppBar.Visibility = Visibility.Visible;
 
                 //CommandBar bottomCommandBar = this.BottomAppBar as CommandBar;
                 //if (bottomCommandBar != null)
@@ -292,6 +293,7 @@ namespace PIBand
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
+            _viewDataSubscription = new DataClient();
             _viewDataSubscription.SubscribeToAccelerometer(OnAccelerometerReading);
             _viewDataSubscription.SubscribeToGeolocation(OnGeopositionReading);
 
@@ -344,12 +346,18 @@ namespace PIBand
         {
             await _phoneDataController.Close();
 
-
-
             btnStop.IsEnabled = false;
             btnStart.IsEnabled = true;
 
             _viewDataSubscription.RemoveSubscription();
+        }
+
+        private void SettingsAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!Frame.Navigate(typeof(SettingsPage)))
+            {
+                throw new Exception(this.resourceLoader.GetString("NavigationFailedExceptionMessage"));
+            }
         }
     }
 }

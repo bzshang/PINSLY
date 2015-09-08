@@ -80,6 +80,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Page Include="ChangeUserPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="EditPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -92,8 +96,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChangeUserPage.xaml.cs">
+      <DependentUpon>ChangeUserPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -108,7 +119,7 @@
     <Compile Include="DataModel\UserSettings.cs" />
     <Compile Include="DataModel\SampleDataSource.cs" />
     <Compile Include="DataModel\DataSettings.cs" />
-    <Compile Include="DataModel\UserSettingsFactory.cs" />
+    <Compile Include="DataModel\SettingsViewModel.cs" />
     <Compile Include="EditPage.xaml.cs">
       <DependentUpon>EditPage.xaml</DependentUpon>
     </Compile>
@@ -119,6 +130,9 @@
       <DependentUpon>PivotPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -149,8 +163,13 @@
   <ItemGroup>
     <None Include="DataModel\appSettingsSample.json" />
     <None Include="DataModel\ConfigSettings.json" />
+    <None Include="DataModel\Settings.json" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataModels\DataModels.csproj">
+      <Project>{8853b9d2-4943-40ab-b8c4-c027b82d0122}</Project>
+      <Name>DataModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataSender\DataSender.csproj">
       <Project>{7d6383d6-6200-4dda-9f69-909eff17baea}</Project>
       <Name>DataSender</Name>

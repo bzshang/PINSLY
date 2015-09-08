@@ -1,5 +1,4 @@
 ﻿using PIBand.Common;
-using PIBand.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,6 +15,10 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.ApplicationModel.Resources;
+using System.Security;
+
+using PIBand.Data;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -24,18 +27,21 @@ namespace PIBand
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class EditPage : Page
+    public sealed partial class ChangeUserPage : Page
     {
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
-        public EditPage()
+        private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
+
+        public ChangeUserPage()
         {
             this.InitializeComponent();
 
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
+
         }
 
         /// <summary>
@@ -68,8 +74,10 @@ namespace PIBand
         /// session.  The state will be null the first time a page is visited.</param>
         private void NavigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
-            //this.DefaultViewModel["Settings"] = AppSettings.GetUserSettings();
+            tbDisplayName.Text = AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].GetValueOrDefault("DisplayName", "PINSly User");
+            tbUsername.Text = AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].GetValueOrDefault("Username", "PINSly_user");
 
+            tbPassword.Password = AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].GetPassword(tbUsername.Text);
         }
 
         /// <summary>
@@ -111,17 +119,26 @@ namespace PIBand
 
         #endregion
 
-        private void SaveAppBarButton_Click(object sender, RoutedEventArgs e)
+        private void SaveUserAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            //Save settings
-            //AppSettings.AddOrUpdateValue("Username", tbUsername.Text);
-            //AppSettings.AddOrUpdateValue("Password", tbPassword.Text);
-            //AppSettings.AddOrUpdateValue("PI Web API Server", tbPIWebAPIServer.Text);
-            //AppSettings.AddOrUpdateValue("AF Server", tbAFServer.Text);
-            //AppSettings.AddOrUpdateValue("PI Server", tbPIServer.Text);
+            AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].AddOrUpdateValue("DisplayName", tbDisplayName.Text);
+            AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].AddOrUpdateValue("Username", tbUsername.Text);
 
-            // Go back to settings
-            Frame.Navigate(typeof(PivotPage));
+            string currentUser = AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].GetValueOrDefault("Username", "none");
+            AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].AddOrUpdatePassword(currentUser, tbPassword.Password);
+        }
+
+        private void BackUserAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            BackToSettings();
+        }
+
+        private void BackToSettings()
+        {
+            if (!Frame.Navigate(typeof(SettingsPage)))
+            {
+                throw new Exception(this.resourceLoader.GetString("NavigationFailedExceptionMessage"));
+            }
         }
     }
 }

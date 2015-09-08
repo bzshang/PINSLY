@@ -1,5 +1,4 @@
 ﻿using PIBand.Common;
-using PIBand.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,6 +15,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.ApplicationModel.Resources;
+
+using PIBand.Data;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -24,18 +26,22 @@ namespace PIBand
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class EditPage : Page
+    public sealed partial class SettingsPage : Page
     {
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
-        public EditPage()
+        private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
+
+        public SettingsPage()
         {
             this.InitializeComponent();
 
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
+
+            //this.NavigationCacheMode = NavigationCacheMode.Required;
         }
 
         /// <summary>
@@ -68,8 +74,19 @@ namespace PIBand
         /// session.  The state will be null the first time a page is visited.</param>
         private void NavigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
-            //this.DefaultViewModel["Settings"] = AppSettings.GetUserSettings();
+            AppSettings localSettings = AppSettingsManager.Instance.LocalSettings;
+            AppSettings userSettings = AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"];
+            AppSettings bandSettings = AppSettingsManager.Instance.LocalSettings.Containers["BandSettings"];
+            AppSettings phoneSettings = AppSettingsManager.Instance.LocalSettings.Containers["PhoneSettings"];
 
+            tbDisplayName.Text = userSettings.GetValueOrDefault("DisplayName", "PI User");
+            tbUserName.Text = userSettings.GetValueOrDefault("Username", "piuser");
+
+            tbIsLinked.Text = bandSettings.GetValueOrDefault("IsLinked", false) ? "Linked" : "Unlinked";
+            btnLink.Content = bandSettings.GetValueOrDefault("IsLinked", false) ? "Unlink" : "Link";
+
+            tsPhoneAccelerometer.IsOn = phoneSettings.GetValueOrDefault("Accelerometer", true);
+            tsPhoneGeoposition.IsOn = phoneSettings.GetValueOrDefault("Geoposition", true);
         }
 
         /// <summary>
@@ -108,20 +125,42 @@ namespace PIBand
         {
             this.navigationHelper.OnNavigatedFrom(e);
         }
-
         #endregion
 
-        private void SaveAppBarButton_Click(object sender, RoutedEventArgs e)
+        private void BackUserAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            //Save settings
-            //AppSettings.AddOrUpdateValue("Username", tbUsername.Text);
-            //AppSettings.AddOrUpdateValue("Password", tbPassword.Text);
-            //AppSettings.AddOrUpdateValue("PI Web API Server", tbPIWebAPIServer.Text);
-            //AppSettings.AddOrUpdateValue("AF Server", tbAFServer.Text);
-            //AppSettings.AddOrUpdateValue("PI Server", tbPIServer.Text);
+            //AppSettings curentUserSettings = AppSettingsManager.Instance.LocalSettings.Containers["Users"].Values[currentUser] as AppSettings;
+            if (!Frame.Navigate(typeof(ChangeUserPage)))
+            {
+                throw new Exception(this.resourceLoader.GetString("NavigationFailedExceptionMessage"));
+            }
 
-            // Go back to settings
-            Frame.Navigate(typeof(PivotPage));
+        }
+
+        private void btnChangeUser_Click(object sender, RoutedEventArgs e)
+        {
+            if (!Frame.Navigate(typeof(ChangeUserPage)))
+            {
+                throw new Exception(this.resourceLoader.GetString("NavigationFailedExceptionMessage"));
+            }
+        }
+
+        private void BackSettingsAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!Frame.Navigate(typeof(PivotPage)))
+            {
+                throw new Exception(this.resourceLoader.GetString("NavigationFailedExceptionMessage"));
+            }
+        }
+
+        private void tsPhoneAccelerometer_Toggled(object sender, RoutedEventArgs e)
+        {
+            AppSettingsManager.Instance.LocalSettings.Containers["PhoneSettings"].AddOrUpdateValue("Accelerometer", tsPhoneAccelerometer.IsOn);
+        }
+
+        private void tsPhoneGeoposition_Toggled(object sender, RoutedEventArgs e)
+        {
+            AppSettingsManager.Instance.LocalSettings.Containers["PhoneSettings"].AddOrUpdateValue("Geoposition", tsPhoneGeoposition.IsOn);
         }
     }
 }

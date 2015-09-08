@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using DataModels;
 using DataSender;
 using PhoneData;
 
@@ -36,19 +37,20 @@ namespace PIBand.Data
 
         private SessionContext GetSessionContext()
         {
-            UserSettings userSettings = AppSettings.GetUserSettings();
-            DataSettings dataSettings = AppSettings.GetDataSettings();
+            UserSettings userSettings = UserSettings.GetStoredUserSettings();
+            DataSettings dataSettings = DataSettings.GetStoredDataSettings();
 
             UserContext userContext = new UserContext
             {
-                Name = userSettings.Username,
-                Password = userSettings.Password
+                Username = userSettings.Username,
+                Password = userSettings.Password,
+                WebIDs = userSettings.WebIDs
             };
 
             DataContext dataContext = new DataContext
             {
-                AccelerometerEnabled = dataSettings.AccelerometerEnabled,
-                GeopositionEnabled = dataSettings.GeopositionEnabled
+                PhoneAccelerometerEnabled = dataSettings.PhoneSettings.AccelerometerEnabled,
+                PhoneGeopositionEnabled = dataSettings.PhoneSettings.GeopositionEnabled
             };
 
             SessionContext sessionContext = new SessionContext { UserContext = userContext, DataContext = dataContext };
@@ -63,7 +65,6 @@ namespace PIBand.Data
             {
                 client.Dispose();
             }
-
         }
 
     }

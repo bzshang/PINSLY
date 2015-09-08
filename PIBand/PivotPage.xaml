@@ -108,7 +108,7 @@
                 </Grid>
             </PivotItem>
             <!--Pivot item settings-->
-            <PivotItem
+            <!--<PivotItem
                 x:Uid="Settings"
                 x:Name="Settings"
                 Margin="19,14.5,0,0"
@@ -178,16 +178,16 @@
                         />
                 </StackPanel>
 
-            </PivotItem>
+            </PivotItem>-->
         </Pivot>
     </Grid>
 
-    <Page.BottomAppBar >
-        <CommandBar x:Name="bottomAppBar" Visibility="Collapsed">
+    <Page.BottomAppBar>
+        <CommandBar x:Name="bottomAppBar" Visibility="Visible">
             <AppBarButton x:Uid="SettingsAppBarButton" x:Name="SettingsAppBarButton" Label="settings" Click="SettingsAppBarButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Setting" />
-            <AppBarButton x:Uid="EditAppBarButton" x:Name="EditAppBarButton" Label="edit" Click="EditAppBarButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Edit" Visibility="Collapsed"/>
+            <!--<AppBarButton x:Uid="EditAppBarButton" x:Name="EditAppBarButton" Label="edit" Click="EditAppBarButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Edit" Visibility="Collapsed"/>
             <AppBarButton x:Uid="BackAppBarButton" x:Name="BackAppBarButton" Label="back" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Back" Visibility="Collapsed" Click="BackAppBarButton_Click"/>
-            <AppBarButton x:Uid="SaveAppBarButton" x:Name="SaveAppBarButton" Label="edit" Click="SaveAppBarButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Save" Visibility="Collapsed"/>
+            <AppBarButton x:Uid="SaveAppBarButton" x:Name="SaveAppBarButton" Label="edit" Click="SaveAppBarButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Save" Visibility="Collapsed"/>-->
             <!--<CommandBar.SecondaryCommands>
                 <AppBarButton x:Uid="SecondaryButton1" x:Name="SecondaryButton1" Label="secondary command 1" />
                 <AppBarButton x:Uid="SecondaryButton2" x:Name="SecondaryButton2" Label="secondary command 2" />

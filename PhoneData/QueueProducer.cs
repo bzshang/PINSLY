@@ -30,13 +30,13 @@ namespace PhoneData
 
         public void SubscribeAndProduce()
         {
-            if (_dataContext.AccelerometerEnabled)
-                _dataClient.SubscribeToAccelerometer(OnAccelerometerReading);
-            if (_dataContext.GeopositionEnabled)
-                _dataClient.SubscribeToGeolocation(OnGeopositionReading);
+            if (_dataContext.PhoneAccelerometerEnabled)
+                _dataClient.SubscribeToAccelerometer(OnPhoneAccelerometerReading);
+            if (_dataContext.PhoneGeopositionEnabled)
+                _dataClient.SubscribeToGeolocation(OnPhoneGeopositionReading);
         }
 
-        private void OnAccelerometerReading(AccelerometerReadingChangedEventArgs args)
+        private void OnPhoneAccelerometerReading(AccelerometerReadingChangedEventArgs args)
         {
             AccelerometerReading reading = args.Reading;
             DateTimeOffset ts = reading.Timestamp;
@@ -50,7 +50,7 @@ namespace PhoneData
             SendToQueue(events);
         }
 
-        public void OnGeopositionReading(PositionChangedEventArgs args)
+        public void OnPhoneGeopositionReading(PositionChangedEventArgs args)
         {
             Geoposition geo = args.Position;
 

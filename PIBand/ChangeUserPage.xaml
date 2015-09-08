@@ -1,0 +1,89 @@
+﻿<Page
+    x:Class="PIBand.ChangeUserPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PIBand"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}">
+
+    <Grid x:Name="LayoutRoot">
+
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title Panel -->
+        <StackPanel Grid.Row="0" Margin="19,0,0,0">
+            <TextBlock Text="Settings" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+            <TextBlock Text="Change User" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
+        </StackPanel>
+
+        <!--TODO: Content should be placed within the following grid-->
+        <Grid
+            DataContext="{Binding Settings}"
+            Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+            <StackPanel Margin="0,0,0,9.5">
+                <TextBlock 
+                    Text="Display Name"
+                    Pivot.SlideInAnimationGroup="1"
+                    CommonNavigationTransitionInfo.IsStaggerElement="True"
+                    Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
+                    />
+                <TextBox
+                    x:Name="tbDisplayName"
+                    Text="{Binding DisplayName}"
+                    Pivot.SlideInAnimationGroup="2"
+                    CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
+                    />
+                <TextBlock 
+                    Text="Username"
+                    Pivot.SlideInAnimationGroup="1"
+                    CommonNavigationTransitionInfo.IsStaggerElement="True"
+                    Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
+                    />
+                <TextBox
+                    x:Name="tbUsername"
+                    Text="{Binding Username}"
+                    Pivot.SlideInAnimationGroup="2"
+                    CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
+                    />
+                <TextBlock 
+                    Text="Password"
+                    Pivot.SlideInAnimationGroup="1"
+                    CommonNavigationTransitionInfo.IsStaggerElement="True"
+                    Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="26.667"
+                    />
+              
+                <PasswordBox
+                    x:Name="tbPassword"
+                    
+                    Pivot.SlideInAnimationGroup="2"
+                    CommonNavigationTransitionInfo.IsStaggerElement="True" FontSize="21.333" Margin="0,0,0,10"
+                />
+                <TextBlock 
+                    Text="Please specify osisoft.int credentials."
+                    TextWrapping="Wrap"
+                    Pivot.SlideInAnimationGroup="1"
+                    CommonNavigationTransitionInfo.IsStaggerElement="True"
+                    Style="{StaticResource ListViewItemTextBlockStyle}" FontSize="18.667"
+                    />
+            </StackPanel>
+        </Grid>
+    </Grid>
+    <Page.BottomAppBar>
+        <CommandBar x:Name="bottomAppBar" Visibility="Visible">
+            <AppBarButton x:Uid="BackUserAppBarButton" x:Name="BackUserAppBarButton" Label="back" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Back" Click="BackUserAppBarButton_Click" />
+            <AppBarButton x:Uid="SaveUserAppBarButton" x:Name="SaveUserAppBarButton" Label="save" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Save" Click="SaveUserAppBarButton_Click" />
+        </CommandBar>
+    </Page.BottomAppBar>
+</Page>

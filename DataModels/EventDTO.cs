@@ -11,4 +11,10 @@ namespace DataModels
         public string Timestamp { get; set; }
         public string Value { get; set; }
     }
+
+    public class AdhocEventsDTO
+    {
+        public string WebID { get; set; }
+        public IList<EventDTO> Items { get; set; }
+    }
 }

@@ -1,0 +1,14 @@
+﻿{
+    "Name": "Settings",
+    "UserSettings": {
+        "DisplayName": "Barry",
+        "Username": "bshang.adm"
+    },
+    "BandSettings": {
+        "IsLinked": false
+    },
+    "PhoneSettings": {
+        "Accelerometer": true,
+        "Geoposition": true
+    }
+}

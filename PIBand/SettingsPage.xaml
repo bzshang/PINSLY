@@ -1,0 +1,117 @@
+﻿<Page
+    x:Class="PIBand.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PIBand"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:data="using:PIBand.Data"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}">
+
+    <Grid x:Name="LayoutRoot">
+
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title Panel -->
+        <StackPanel Grid.Row="0" Margin="19,0,0,0">
+            <TextBlock Text="PINSly" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+            <TextBlock Text="Settings" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
+        </StackPanel>
+
+        <!--TODO: Content should be placed within the following grid-->
+        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0"  
+              d:DataContext="{Binding Source={d:DesignData Source=/DataModel/Settings.json, Type=data:SettingsViewModel}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel d:DataContext="{Binding UserSettings}" 
+                        DataContext="{Binding UserSettings}" 
+                        Grid.Row="0" Margin="0,0,0,9.5">
+                <TextBlock
+                    x:Name="tbDisplayName"
+                        Text="{Binding DisplayName}"
+                        Pivot.SlideInAnimationGroup="1"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True"
+                        Style="{StaticResource ListViewItemTextBlockStyle}"/>
+                <TextBlock
+                    x:Name="tbUserName"
+                        Text="{Binding Username}"
+                        Pivot.SlideInAnimationGroup="2"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True"
+                        Style="{StaticResource ListViewItemContentTextBlockStyle}"/>
+            </StackPanel>
+            <Button x:Name="btnChangeUser" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="0" Content="Change" Click="btnChangeUser_Click"/>
+            <StackPanel 
+                d:DataContext="{Binding BandSettings}" 
+                DataContext="{Binding BandSettings}" 
+                Grid.Row="1"  Margin="0,0,0,9.5">
+                <TextBlock  
+                        Text="Microsoft Band"
+                        Pivot.SlideInAnimationGroup="1"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True"
+                        Style="{StaticResource ListViewItemTextBlockStyle}" VerticalAlignment="Center" FontSize="26.667"/>
+                <TextBlock  
+                    x:Name="tbIsLinked"
+                        Text="{Binding IsLinked}"
+                        Pivot.SlideInAnimationGroup="2"
+                        CommonNavigationTransitionInfo.IsStaggerElement="True"
+                        Style="{StaticResource ListViewItemContentTextBlockStyle}"/>
+            </StackPanel>
+            
+            <Button 
+                x:Name="btnLink"
+                Grid.Row="1" 
+                Grid.Column="1" 
+                HorizontalAlignment="Right" Margin="0"/>
+
+           
+            <TextBlock  Grid.Row="2" 
+                Text="Accelerometer"
+                Pivot.SlideInAnimationGroup="1"
+                CommonNavigationTransitionInfo.IsStaggerElement="True"
+                Style="{StaticResource ListViewItemTextBlockStyle}" VerticalAlignment="Top" FontSize="26.667" Padding="0"/>
+         
+
+            <ToggleSwitch 
+                x:Name="tsPhoneAccelerometer"
+                d:DataContext="{Binding PhoneSettings}" 
+                DataContext="{Binding PhoneSettings}" 
+                Grid.Row="2" Grid.Column="1" IsOn="{Binding Accelerometer}" OffContent="" OnContent="" HorizontalAlignment="Center" Padding="0,10,0,0" HorizontalContentAlignment="Left" VerticalAlignment="Center" Margin="0" BorderThickness="0,2,0,0" Toggled="tsPhoneAccelerometer_Toggled"/>
+                <TextBlock  Grid.Row="3" 
+                Text="Geoposition"
+                Pivot.SlideInAnimationGroup="1"
+                CommonNavigationTransitionInfo.IsStaggerElement="True"
+                Style="{StaticResource ListViewItemTextBlockStyle}" VerticalAlignment="Top" FontSize="26.667" Padding="0"/>
+            <ToggleSwitch 
+                x:Name="tsPhoneGeoposition"
+                d:DataContext="{Binding PhoneSettings}" 
+                DataContext="{Binding PhoneSettings}" 
+                Grid.Row="3" Grid.Column="1" IsOn="{Binding Geoposition}" OffContent="" OnContent="" HorizontalAlignment="Center" Padding="0" BorderThickness="0,2,0,0" Toggled="tsPhoneGeoposition_Toggled"/>
+            
+        </Grid>
+    </Grid>
+    <Page.BottomAppBar>
+        <CommandBar x:Name="bottomAppBar" Visibility="Visible">
+            <AppBarButton x:Uid="BackSettingsAppBarButton" x:Name="BackSettingsAppBarButton" Label="back" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0" Icon="Back" Click="BackSettingsAppBarButton_Click" />
+        </CommandBar>
+    </Page.BottomAppBar>
+</Page>

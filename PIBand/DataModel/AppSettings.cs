@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Security.Credentials;
 
 namespace PIBand.Data
 {
@@ -12,11 +13,11 @@ namespace PIBand.Data
     {
         private ApplicationDataContainer _container;
 
-        public IReadOnlyDictionary<string,ApplicationDataContainer> Containers
+        public IReadOnlyDictionary<string, AppSettings> Containers
         {
             get
             {
-                return _container.Containers;
+                return _container.Containers.ToDictionary(i => i.Key, i => new AppSettings(i.Value));
             }
         }
 
@@ -56,7 +57,7 @@ namespace PIBand.Data
         public T GetValueOrDefault<T>(string key, T defaultValue)
         {
             T value;
-
+           
             if (_container.Values.ContainsKey(key))
             {
                 value = (T)_container.Values[key];
@@ -69,10 +70,36 @@ namespace PIBand.Data
             return value;
         }
 
+        public string GetPassword(string currentUser)
+        {
+            IReadOnlyList<PasswordCredential> credentialList = null;
+
+            var vault = new PasswordVault();
+            try
+            {
+                credentialList = vault.FindAllByUserName(currentUser);
+            }
+            catch
+            {
+                return null;
+            }
+
+            PasswordCredential credential = null;
+            if (credentialList.Count > 0)
+            {
+                credential = credentialList[0];
+            }
+            credential.RetrievePassword();
+
+            return credential.Password;
+        }
+
+
+
         public bool AddOrUpdateValue(string key, Object value)
         {
             bool valueChanged = false;
- 
+
             var dict = _container.Values;
             // If the key exists
             if (dict.ContainsKey(key))
@@ -90,9 +117,44 @@ namespace PIBand.Data
             {
                 dict.Add(key, value);
                 valueChanged = true;
-            }       
+            }
 
             return valueChanged;
+          
+
+        }
+
+        public bool AddOrUpdatePassword(string currentUser, string password)
+        {
+            PasswordCredential credential = null;
+            var vault = new PasswordVault();
+
+            IReadOnlyList<PasswordCredential> credentialList = null;
+            try
+            {
+                credentialList = vault.FindAllByUserName(currentUser);
+            }
+            catch
+            {       
+                vault.Add(new PasswordCredential("PINSly", currentUser, password));
+                return true;
+            }
+
+            if (credentialList.Count > 0)
+            {
+                credential = credentialList[0];
+            }
+            credential.RetrievePassword();
+
+            if (credential.Password != password)
+            {
+                vault.Remove(new PasswordCredential("PINSly", currentUser, credential.Password));
+                vault.Add(new PasswordCredential("PINSly", currentUser, password));
+                return true;
+            }
+
+            return false;
+
         }
 
     }
