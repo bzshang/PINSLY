@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PIBand.Data
+namespace PIBand.Models
 {
     public class SettingsViewModel
     {

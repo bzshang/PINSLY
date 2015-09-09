@@ -87,7 +87,7 @@
     <Compile Include="EventQueue.cs" />
     <Compile Include="GeoLocationProvider.cs" />
     <Compile Include="IDataProvider.cs" />
-    <Compile Include="PhoneDataEventArgs.cs" />
+    <Compile Include="DataEventArgs.cs" />
     <Compile Include="QueueConsumer.cs" />
     <Compile Include="QueueConsumersManager.cs" />
     <Compile Include="QueueProducer.cs" />

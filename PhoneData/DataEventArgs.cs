@@ -8,7 +8,7 @@ using DataModels;
 
 namespace PhoneData
 {
-    public class PhoneDataEventArgs : EventArgs
+    public class DataEventArgs : EventArgs
     {
         public IList<EventItem> Items { get; set; }
 

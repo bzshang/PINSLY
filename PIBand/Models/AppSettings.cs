@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Security.Credentials;
 
-namespace PIBand.Data
+namespace PIBand.Models
 {
     public class AppSettings
     {

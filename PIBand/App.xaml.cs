@@ -20,7 +20,7 @@ using Windows.UI.Xaml.Navigation;
 
 using Windows.Storage;
 
-using PIBand.Data;
+using PIBand.Models;
 
 // The Pivot Application template is documented at http://go.microsoft.com/fwlink/?LinkID=391641
 

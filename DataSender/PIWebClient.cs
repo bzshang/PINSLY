@@ -27,6 +27,8 @@ namespace DataSender
 
         private UserContext _userContext;
 
+        private IUpdateValues _updateValuesService;
+
         public PIWebClient(UserContext userContext, QueueConsumer queueConsumer)
         {
             _userContext = userContext;
@@ -41,6 +43,8 @@ namespace DataSender
                 userContext.Password))));
 
             _queueConsumer = queueConsumer;
+
+            _updateValuesService = new UpdateValuesAdhocService();
         }
 
         public void AttachToConsumerEvent()
@@ -48,42 +52,66 @@ namespace DataSender
             _queueConsumer.EventsReceived += OnEventsReceived;
         }
 
-        public void OnEventsReceived(object sender, PhoneDataEventArgs args)
+        public void OnEventsReceived(object sender, DataEventArgs args)
         {
             SendAsync(args.Items);
         }   
 
         public async void SendAsync(IList<EventItem> items)
         {
-            var groups = items
-                .GroupBy(i => i.Stream).Select(g => new AdhocEventsDTO { WebID = LookupWebId(g.Key), Items = ConvertToDTO(g) });
-
-            string url = UrlBuilder.UpdateValuesAdHoc();
-            Uri uri = new Uri(url);
-
-            string adhocEventsDTO = JsonConvert.SerializeObject(groups);
-            IHttpContent httpContent = new HttpStringContent(adhocEventsDTO, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
+            Uri uri = _updateValuesService.GetUri();
+            IHttpContent httpContent = _updateValuesService.GetHttpContent(items);
 
             HttpResponseMessage response = await _httpClient.PostAsync(uri, httpContent);
 
             Debug.WriteLine(response.StatusCode);
         }
 
-        private IList<EventDTO> ConvertToDTO(IGrouping<StreamsEnum, EventItem> group)
+        public async Task<HttpResponseMessage> GetElementByPath(string path)
         {
-            return group.ToList().Select(i => new EventDTO
-            {
-                Timestamp = i.Timestamp.ToString("o", CultureInfo.InvariantCulture),
-                Value = i.Value.ToString()
-            }).ToList();
+            string url = @"https://osiproghack01.cloudapp.net/piwebapi/elements?path=" + path;
+            Uri uri = new Uri(url);
+            HttpResponseMessage response = await _httpClient.GetAsync(uri);
 
+            return response;
         }
 
-        private string LookupWebId(StreamsEnum stream)
+        public async Task<HttpResponseMessage> CreateElement(string webID, string jsonString)
         {
-            //string webID = _userContext.WebIDs[stream];
-            return "P0LxDSL0sCwEC3yUrXhcG-8A5wMAAASlVQSVRFUjAwMVxBQ0NFTFg";
-            //return webID;
+            string url = @"https://osiproghack01.cloudapp.net/piwebapi/elements/" + webID + @"/elements";
+            Uri uri = new Uri(url);
+            IHttpContent httpContent = new HttpStringContent(jsonString, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
+            HttpResponseMessage response = await _httpClient.PostAsync(uri, httpContent);
+
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> CreatePoint(string webID, string jsonString)
+        {
+            string url = @"https://osiproghack01.cloudapp.net/piwebapi/dataservers/" + webID + @"/points";
+            Uri uri = new Uri(url);
+            IHttpContent httpContent = new HttpStringContent(jsonString, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
+            HttpResponseMessage response = await _httpClient.PostAsync(uri, httpContent);
+
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> GetServerByPath(string path)
+        {
+            string url = @"https://osiproghack01.cloudapp.net/piwebapi/dataservers?path=" + path;
+            Uri uri = new Uri(url);
+            HttpResponseMessage response = await _httpClient.GetAsync(uri);
+
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> GetPoints(string webID, string nameFilter)
+        {
+            string url = @"https://osiproghack01.cloudapp.net/piwebapi/dataservers" + webID + "/points?nameFilter=" + nameFilter; 
+            Uri uri = new Uri(url);
+            HttpResponseMessage response = await _httpClient.GetAsync(uri);
+
+            return response;
         }
 
         public void Dispose()

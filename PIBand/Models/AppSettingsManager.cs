@@ -8,7 +8,7 @@ using Windows.Storage;
 
 using PIBand;
 
-namespace PIBand.Data
+namespace PIBand.Models
 {
     public sealed class AppSettingsManager
     {

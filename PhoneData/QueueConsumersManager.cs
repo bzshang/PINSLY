@@ -11,9 +11,7 @@ namespace PhoneData
     public class QueueConsumersManager
     {
         private EventQueue _queue;
-
         private int _numConsumerTasks = 1;
-
         private IList<QueueConsumer> _consumers;
 
         private Task[] _consumingTasks;
@@ -29,10 +27,7 @@ namespace PhoneData
         public QueueConsumersManager(EventQueue queue)
         {
             _queue = queue;
-
-            _consumers = Enumerable.Range(0, _numConsumerTasks).Select(i => new QueueConsumer(_queue)).ToList();
-
-            
+            _consumers = Enumerable.Range(0, _numConsumerTasks).Select(i => new QueueConsumer(_queue)).ToList();          
         }
 
         public async Task BeginConsume()
@@ -40,7 +35,6 @@ namespace PhoneData
             _consumingTasks = _consumers.Select(i => Task.Run(() => i.ConsumeEvents())).ToArray();
 
             await Task.WhenAll(_consumingTasks);
-
         }
 
         public void Cleanup()
@@ -48,7 +42,5 @@ namespace PhoneData
 
 
         }
-
-
     }
 }

@@ -82,6 +82,7 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdhocEventsDTO.cs" />
     <Compile Include="EventDTO.cs" />
     <Compile Include="EventItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

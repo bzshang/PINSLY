@@ -1,5 +1,6 @@
 ﻿using PIBand.Common;
-using PIBand.Data;
+using PIBand.Models;
+using PIBand.Controllers;
 using PhoneData;
 using System;
 using System.Threading.Tasks;
@@ -89,8 +90,8 @@ namespace PIBand
         private async void NavigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
             // TODO: Create an appropriate data model for your problem domain to replace the sample data
-            var sampleDataGroup = await SampleDataSource.GetGroupAsync("Group-1");
-            this.DefaultViewModel[FirstGroupName] = sampleDataGroup;
+            //var sampleDataGroup = await SampleDataSource.GetGroupAsync("Group-1");
+            //this.DefaultViewModel[FirstGroupName] = sampleDataGroup;
         }
 
         /// <summary>
@@ -291,11 +292,15 @@ namespace PIBand
             }
         }
 
-        private void btnStart_Click(object sender, RoutedEventArgs e)
+        private async void btnStart_Click(object sender, RoutedEventArgs e)
         {
             _viewDataSubscription = new DataClient();
             _viewDataSubscription.SubscribeToAccelerometer(OnAccelerometerReading);
             _viewDataSubscription.SubscribeToGeolocation(OnGeopositionReading);
+
+            AFMetaDataController afMetaDataController = new AFMetaDataController();
+            await afMetaDataController.BuildUserAssets();
+            afMetaDataController.Close();
 
             _phoneDataController = new PhoneDataController();
             _phoneDataController.Initialize();

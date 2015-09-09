@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DataModels
 {
-    public class EventDTO
+    public class AdhocEventsDTO
     {
-        public string Timestamp { get; set; }
-        public string Value { get; set; }
+        public string WebID { get; set; }
+        public IList<EventDTO> Items { get; set; }
     }
 }

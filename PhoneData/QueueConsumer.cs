@@ -12,7 +12,7 @@ namespace PhoneData
     {
         private EventQueue _queue;
 
-        public event EventHandler<PhoneDataEventArgs> EventsReceived;
+        public event EventHandler<DataEventArgs> EventsReceived;
 
         private IList<EventItem> _listItems;
 
@@ -41,7 +41,7 @@ namespace PhoneData
 
         private void RaiseEvent(IList<EventItem> items)
         {
-            PhoneDataEventArgs eventArgs = new PhoneDataEventArgs();
+            DataEventArgs eventArgs = new DataEventArgs();
             eventArgs.Items = items;
             EventsReceived(this, eventArgs);
         }

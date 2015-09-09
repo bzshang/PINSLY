@@ -112,14 +112,15 @@
     <Compile Include="Common\ObservableDictionary.cs" />
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
-    <Compile Include="DataModel\AppSettings.cs" />
-    <Compile Include="DataModel\AppSettingsManager.cs" />
-    <Compile Include="DataModel\PhoneDataController.cs" />
-    <Compile Include="DataModel\SettingsEnum.cs" />
-    <Compile Include="DataModel\UserSettings.cs" />
-    <Compile Include="DataModel\SampleDataSource.cs" />
-    <Compile Include="DataModel\DataSettings.cs" />
-    <Compile Include="DataModel\SettingsViewModel.cs" />
+    <Compile Include="Controllers\AFMetaDataController.cs" />
+    <Compile Include="Models\AppSettings.cs" />
+    <Compile Include="Models\AppSettingsManager.cs" />
+    <Compile Include="Controllers\PhoneDataController.cs" />
+    <Compile Include="Models\SettingsEnum.cs" />
+    <Compile Include="Models\UserSettings.cs" />
+    <Compile Include="Models\SampleDataSource.cs" />
+    <Compile Include="Models\DataSettings.cs" />
+    <Compile Include="Models\SettingsViewModel.cs" />
     <Compile Include="EditPage.xaml.cs">
       <DependentUpon>EditPage.xaml</DependentUpon>
     </Compile>
@@ -130,6 +131,7 @@
       <DependentUpon>PivotPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SessionContextProvider.cs" />
     <Compile Include="SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
@@ -155,15 +157,15 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DataModel\SampleData.json" />
+    <Content Include="Models\SampleData.json" />
     <PRIResource Include="Strings\en-US\Resources.resw">
       <SubType>Designer</SubType>
     </PRIResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="DataModel\appSettingsSample.json" />
-    <None Include="DataModel\ConfigSettings.json" />
-    <None Include="DataModel\Settings.json" />
+    <None Include="Models\ConfigSettings.json" />
+    <None Include="Models\Settings.json" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataModels\DataModels.csproj">
@@ -178,6 +180,12 @@
       <Project>{4cc7f98c-ae70-4036-bf30-0419955bf158}</Project>
       <Name>PhoneData</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\portable-net45+wp80+win8+wpa81+dnxcore50\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>

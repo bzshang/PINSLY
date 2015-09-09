@@ -6,28 +6,14 @@ using System.Threading.Tasks;
 
 using DataModels;
 
-namespace PIBand.Data
+namespace PIBand.Models
 {
     public class UserSettings
     {
         public string DisplayName { get; private set; }
         public string Username { get; private set; }
-        //public string Username { get; private set; }
         public string Password { get; private set; }
-
         public Dictionary<StreamsEnum, string> WebIDs { get; set; }
-        //public string PIWebAPIServer { get; private set; }
-        //public string AFServer { get; private set; }
-        //public string PIServer { get; private set; }
-
-        //public UserSettings(string userName, string password, string piwebapiServer, string afServer, string piServer)
-        //{
-        //    this.Username = userName;
-        //    this.Password = password;
-        //    this.PIWebAPIServer = piwebapiServer;
-        //    this.AFServer = afServer;
-        //    this.PIServer = piServer;
-        //}
 
         public static UserSettings GetStoredUserSettings()
         {
