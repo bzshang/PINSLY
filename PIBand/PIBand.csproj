@@ -116,7 +116,7 @@
     <Compile Include="Models\AppSettings.cs" />
     <Compile Include="Models\AppSettingsManager.cs" />
     <Compile Include="Controllers\PhoneDataController.cs" />
-    <Compile Include="Models\SettingsEnum.cs" />
+    <Compile Include="Models\ServerSettings.cs" />
     <Compile Include="Models\UserSettings.cs" />
     <Compile Include="Models\SampleDataSource.cs" />
     <Compile Include="Models\DataSettings.cs" />
@@ -131,7 +131,7 @@
       <DependentUpon>PivotPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SessionContextProvider.cs" />
+    <Compile Include="Helpers\SessionContextProvider.cs" />
     <Compile Include="SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
@@ -172,13 +172,13 @@
       <Project>{8853b9d2-4943-40ab-b8c4-c027b82d0122}</Project>
       <Name>DataModels</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DataSender\DataSender.csproj">
+    <ProjectReference Include="..\DataSender\PIClient.csproj">
       <Project>{7d6383d6-6200-4dda-9f69-909eff17baea}</Project>
-      <Name>DataSender</Name>
+      <Name>PIClient</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PhoneData\PhoneData.csproj">
+    <ProjectReference Include="..\PhoneData\DataOperations.csproj">
       <Project>{4cc7f98c-ae70-4036-bf30-0419955bf158}</Project>
-      <Name>PhoneData</Name>
+      <Name>DataOperations</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

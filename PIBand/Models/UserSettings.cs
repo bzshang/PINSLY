@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using DataModels;
+using Windows.Storage;
 
 namespace PIBand.Models
 {
@@ -17,15 +18,32 @@ namespace PIBand.Models
 
         public static UserSettings GetStoredUserSettings()
         {
-            string displayName = AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].GetValueOrDefault("DisplayName", "defaultUser");
-            string userName = AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].GetValueOrDefault("Username", "defaultUser");
-            string password = AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].GetPassword(userName);
+            string displayName = AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"]
+                .GetValueOrDefault("DisplayName", "defaultUser");
+            string userName = AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"]
+                .GetValueOrDefault("Username", "defaultUser");
+            string password = AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"]
+                .GetPassword(userName);
 
-            Dictionary<StreamsEnum, string> webIds = AppSettingsManager.Instance.LocalSettings
-                .Containers["WebIDs"].GetValueOrDefault<Dictionary<StreamsEnum, string>>("Username", null);
+            ApplicationDataCompositeValue webIds = AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"]
+                .GetValueOrDefault<ApplicationDataCompositeValue>("WebIds", null);
 
-            return new UserSettings { DisplayName = displayName, Username = userName, Password = password, WebIDs = webIds };
+            Dictionary<StreamsEnum, string> webIdDict = ConvertToDict(webIds);
 
+            return new UserSettings { DisplayName = displayName, Username = userName, Password = password, WebIDs = webIdDict };
+
+        }
+
+        private static Dictionary<StreamsEnum, string> ConvertToDict(ApplicationDataCompositeValue webIds)
+        {
+            if (webIds == null) return null;
+
+            Dictionary<StreamsEnum, string> webIdDict =  new Dictionary<StreamsEnum, string>();
+            foreach (var setting in webIds)
+            {
+                webIdDict.Add(StreamsMapper.MapToEnum(setting.Key), setting.Value as string);
+            }
+            return webIdDict;
         }
 
     }

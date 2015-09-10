@@ -2,12 +2,13 @@
 using DataModels;
 using Windows.Web.Http;
 using System;
+using DataOperations;
 
-namespace DataSender
+namespace PIClient
 {
     public interface IUpdateValues
     {
-        IHttpContent GetHttpContent(IList<EventItem> items);
+        IHttpContent GetHttpContent(UserContext userContext, IList<EventItem> items);
         Uri GetUri();
     }
 }

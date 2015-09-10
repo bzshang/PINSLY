@@ -4,13 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using PhoneData;
+using DataOperations;
 using PIBand.Models;
+using Windows.Storage;
+using DataModels;
 
-namespace PIBand
+namespace PIBand.Helpers
 {
     public static class SessionContextProvider
     {
+
         public static SessionContext GetSessionContext()
         {
             UserSettings userSettings = UserSettings.GetStoredUserSettings();

@@ -4,12 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using DataSender;
-using PhoneData;
+using PIClient;
+using DataOperations;
 using Windows.Web.Http;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
+using PIBand.Models;
+using PIBand.Helpers;
+using DataModels;
+using Windows.Storage;
 
 namespace PIBand.Controllers
 {
@@ -35,7 +40,7 @@ namespace PIBand.Controllers
                 bool existsPI = await CheckPI();
                 if (existsPI)
                 {
-
+                    await BuildWebIdCache();
                 }
                 else
                 {
@@ -45,6 +50,41 @@ namespace PIBand.Controllers
             else
             {
 
+            }
+        }
+
+        private async Task BuildWebIdCache()
+        {
+            Dictionary<StreamsEnum, string> webIds = _sessionContext.UserContext.WebIDs;
+            if (webIds == null)
+            {
+                string webID = await GetServerWebID();
+                string nameFilter = string.Format("{0}.MobileData*", _sessionContext.UserContext.Username);
+
+                HttpResponseMessage responseGetPoints = await _piWebClient.GetPoints(webID, nameFilter);
+
+                dynamic valueResult;
+                if (responseGetPoints.StatusCode == HttpStatusCode.Ok)
+                {
+                    using (StreamReader sr = new StreamReader((await responseGetPoints.Content.ReadAsInputStreamAsync()).AsStreamForRead()))
+                    {
+                        using (JsonTextReader jReader = new JsonTextReader(sr))
+                        {
+                            valueResult = JObject.ReadFrom(jReader);
+                        }
+                    }
+                    IList<PointDTO> points = valueResult["Items"].ToObject<List<PointDTO>>();
+
+                    ApplicationDataCompositeValue webIdsStored = new ApplicationDataCompositeValue();
+
+                    foreach (var pt in points)
+                    {
+                        webIdsStored.Add(pt.Name, pt.WebId);
+                    }
+
+                    AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].AddOrUpdateValue("WebIds", webIdsStored);
+                }
+            
             }
         }
 
@@ -103,6 +143,17 @@ namespace PIBand.Controllers
 
             bool pointsCreationStatus = false;
 
+            string[] pointTemplateNames =
+            {
+                "PhoneAccelerometerX",
+                "PhoneAccelerometerY",
+                "PhoneAccelerometerZ",
+                "Geoposition_Latitude",
+                "Geoposition_Longitude"
+            };
+
+            IList<string> resolvedPointNames = pointTemplateNames.Select(i => string.Format("{0}.MobileData.{1}", _sessionContext.UserContext.Username, i)).ToList();
+
             dynamic valueResult;
             if (responseGetPoints.StatusCode == HttpStatusCode.Ok)
             {
@@ -113,15 +164,19 @@ namespace PIBand.Controllers
                         valueResult = JObject.ReadFrom(jReader);
                     }
                 }
-                string[] points = valueResult["Items"];
+                IList<PointDTO> points = valueResult["Items"].ToObject<List<PointDTO>>();
 
+                HashSet<string> pointsFound = new HashSet<string>(points.Select(i => i.Name));
 
+                IList<string> pointsToCreate = resolvedPointNames.Where(i => !pointsFound.Contains(i)).ToList();
+
+                pointsCreationStatus = await CreatePointsAsync(webID, pointsToCreate);
 
 
             }
             else if (responseGetPoints.StatusCode == HttpStatusCode.NotFound)
             {
-                pointsCreationStatus = await CreatePointsAsync(webID);
+                pointsCreationStatus = await CreatePointsAsync(webID, resolvedPointNames);
             }
 
             return pointsCreationStatus;
@@ -129,6 +184,10 @@ namespace PIBand.Controllers
 
         private async Task<string> GetServerWebID()
         {
+            string webId = AppSettingsManager.Instance.LocalSettings.Containers["ServerSettings"].GetValueOrDefault("WebId", "");
+
+            if (!string.IsNullOrEmpty(webId)) return webId;
+
             HttpResponseMessage responseGetServer = await _piWebClient.GetServerByPath(@"\\jupiter001");
             dynamic valueResult;
             using (StreamReader sr = new StreamReader((await responseGetServer.Content.ReadAsInputStreamAsync()).AsStreamForRead()))
@@ -139,21 +198,15 @@ namespace PIBand.Controllers
                 }
             }
 
-            return valueResult["WebId"];
+            string newWebId = valueResult["WebId"];
+
+            if (!string.IsNullOrEmpty(newWebId)) AppSettingsManager.Instance.LocalSettings.Containers["ServerSettings"].AddOrUpdateValue("WebId", newWebId);
+
+            return newWebId;
         }
 
-        private async Task<bool> CreatePointsAsync(string webID)
+        private async Task<bool> CreatePointsAsync(string webID, IList<string> pointNames)
         {
-            string[] pointTemplateNames =
-            {
-                "PhoneAccelerometerX",
-                "PhoneAccelerometerY",
-                "PhoneAccelerometerZ",
-                "Geoposition_Latitude",
-                "Geoposition_Longitude"
-            };
-
-            var pointNames = pointTemplateNames.Select(i => string.Format("{0}.MobileData.{1}", _sessionContext.UserContext.Username, i));
 
             Task<bool>[] tasks = pointNames.Select(async i => await CreatePointAsync(webID, i)).ToArray();
 

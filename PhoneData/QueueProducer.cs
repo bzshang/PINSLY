@@ -11,7 +11,7 @@ using System.Diagnostics;
 
 using DataModels;
 
-namespace PhoneData
+namespace DataOperations
 {
     public class QueueProducer
     {
@@ -44,8 +44,8 @@ namespace PhoneData
             EventItem accY = new EventItem { Stream = StreamsEnum.PhoneAccelerometerY, Timestamp = ts, Value = reading.AccelerationY };
             EventItem accZ = new EventItem { Stream = StreamsEnum.PhoneAccelerometerZ, Timestamp = ts, Value = reading.AccelerationZ };
 
-            IList<EventItem> events = new[] { accX };
-            //IList<EventItem> events = new[] { accX, accY, accZ };
+            //IList<EventItem> events = new[] { accX };
+            IList<EventItem> events = new[] { accX, accY, accZ };
             //Debug.WriteLine(DateTime.Now);
             SendToQueue(events);
         }

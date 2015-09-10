@@ -8,6 +8,7 @@ namespace DataModels
 {
     public enum StreamsEnum
     {
+        None,
         PhoneAccelerometerX,
         PhoneAccelerometerY,
         PhoneAccelerometerZ,

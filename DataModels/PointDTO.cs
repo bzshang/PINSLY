@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PIBand.DataModel
+namespace DataModels
 {
-    public enum SettingsEnum
+    public class PointDTO
     {
-        Users
-
+        public string Name { get; set; }
+        public string WebId { get; set; }
 
     }
 }

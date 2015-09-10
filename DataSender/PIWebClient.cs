@@ -10,14 +10,14 @@ using Windows.Web.Http.Filters;
 using System.Diagnostics;
 
 using DataModels;
-using PhoneData;
+using DataOperations;
 
 using Newtonsoft.Json;
 using System.Globalization;
 
 
 
-namespace DataSender
+namespace PIClient
 {
     public class PIWebClient : IDisposable
     {
@@ -60,7 +60,7 @@ namespace DataSender
         public async void SendAsync(IList<EventItem> items)
         {
             Uri uri = _updateValuesService.GetUri();
-            IHttpContent httpContent = _updateValuesService.GetHttpContent(items);
+            IHttpContent httpContent = _updateValuesService.GetHttpContent(_userContext, items);
 
             HttpResponseMessage response = await _httpClient.PostAsync(uri, httpContent);
 
@@ -107,7 +107,7 @@ namespace DataSender
 
         public async Task<HttpResponseMessage> GetPoints(string webID, string nameFilter)
         {
-            string url = @"https://osiproghack01.cloudapp.net/piwebapi/dataservers" + webID + "/points?nameFilter=" + nameFilter; 
+            string url = @"https://osiproghack01.cloudapp.net/piwebapi/dataservers/" + webID + "/points?nameFilter=" + nameFilter; 
             Uri uri = new Uri(url);
             HttpResponseMessage response = await _httpClient.GetAsync(uri);
 
@@ -116,7 +116,7 @@ namespace DataSender
 
         public void Dispose()
         {
-            _queueConsumer.EventsReceived -= OnEventsReceived;
+            if (_queueConsumer != null) _queueConsumer.EventsReceived -= OnEventsReceived;
             _httpClient.Dispose();
         }
     }

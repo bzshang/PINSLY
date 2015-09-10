@@ -124,6 +124,8 @@ namespace PIBand
             AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].AddOrUpdateValue("DisplayName", tbDisplayName.Text);
             AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].AddOrUpdateValue("Username", tbUsername.Text);
 
+            AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].AddOrUpdateValue("WebIds", null);
+
             string currentUser = AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].GetValueOrDefault("Username", "none");
             AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].AddOrUpdatePassword(currentUser, tbPassword.Password);
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using DataModels;
 
-namespace PhoneData
+namespace DataOperations
 {
     public class SessionContext
     {

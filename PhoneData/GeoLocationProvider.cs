@@ -9,7 +9,7 @@ using Windows.UI.Xaml;
 
 using System.Reactive.Linq;
 
-namespace PhoneData
+namespace DataOperations
 {
     public class GeoLocationProvider
     {

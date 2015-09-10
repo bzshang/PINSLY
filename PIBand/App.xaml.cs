@@ -1,5 +1,5 @@
 ﻿using PIBand.Common;
-using PhoneData;
+using DataOperations;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -130,7 +130,7 @@ namespace PIBand
             AppSettings userSettings = localSettings.CreateContainer("UserSettings", ApplicationDataCreateDisposition.Always);
             AppSettings phoneSettings = localSettings.CreateContainer("PhoneSettings", ApplicationDataCreateDisposition.Always);
             AppSettings bandSettings = localSettings.CreateContainer("BandSettings", ApplicationDataCreateDisposition.Always);
-            AppSettings webIDSettings = localSettings.CreateContainer("WebIDs", ApplicationDataCreateDisposition.Always);
+            AppSettings serverSettings = localSettings.CreateContainer("ServerSettings", ApplicationDataCreateDisposition.Always);
 
         }
 

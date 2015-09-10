@@ -81,7 +81,7 @@ namespace PIBand.Models
             }
             catch
             {
-                return null;
+                return "";
             }
 
             PasswordCredential credential = null;
@@ -120,8 +120,6 @@ namespace PIBand.Models
             }
 
             return valueChanged;
-          
-
         }
 
         public bool AddOrUpdatePassword(string currentUser, string password)

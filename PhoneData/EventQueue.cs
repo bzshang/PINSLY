@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 using DataModels;
 
-namespace PhoneData
+namespace DataOperations
 {
     public class EventQueue
     {

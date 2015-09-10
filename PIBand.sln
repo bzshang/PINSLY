@@ -5,9 +5,9 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PIBand", "PIBand\PIBand.csproj", "{7A36D986-4496-4F0E-91F5-1E7ED45D6659}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneData", "PhoneData\PhoneData.csproj", "{4CC7F98C-AE70-4036-BF30-0419955BF158}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataOperations", "PhoneData\DataOperations.csproj", "{4CC7F98C-AE70-4036-BF30-0419955BF158}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataSender", "DataSender\DataSender.csproj", "{7D6383D6-6200-4DDA-9F69-909EFF17BAEA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PIClient", "DataSender\PIClient.csproj", "{7D6383D6-6200-4DDA-9F69-909EFF17BAEA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataModels", "DataModels\DataModels.csproj", "{8853B9D2-4943-40AB-B8C4-C027B82D0122}"
 EndProject

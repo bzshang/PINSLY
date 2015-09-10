@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-using DataSender;
-using PhoneData;
+using PIBand.Helpers;
+
+using PIClient;
+using DataOperations;
 
 using PIBand.Models;
 

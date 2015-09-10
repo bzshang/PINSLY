@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using PhoneData;
+using DataOperations;
 
 using Windows.Devices.Geolocation;
 using Windows.Devices.Sensors;
 
-namespace PhoneData
+namespace DataOperations
 {
     public class DataClient
     {

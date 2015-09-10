@@ -84,9 +84,9 @@
       <Project>{8853b9d2-4943-40ab-b8c4-c027b82d0122}</Project>
       <Name>DataModels</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PhoneData\PhoneData.csproj">
+    <ProjectReference Include="..\PhoneData\DataOperations.csproj">
       <Project>{4cc7f98c-ae70-4036-bf30-0419955bf158}</Project>
-      <Name>PhoneData</Name>
+      <Name>DataOperations</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

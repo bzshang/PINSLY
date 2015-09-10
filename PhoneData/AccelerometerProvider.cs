@@ -10,7 +10,7 @@ using Windows.UI.Xaml.Controls;
 using System.Reactive;
 using System.Reactive.Linq;
 
-namespace PhoneData
+namespace DataOperations
 {
     public class AccelerometerProvider
     {
