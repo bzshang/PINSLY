@@ -79,8 +79,8 @@ namespace PIBand
             AppSettings bandSettings = AppSettingsManager.Instance.LocalSettings.Containers["BandSettings"];
             AppSettings phoneSettings = AppSettingsManager.Instance.LocalSettings.Containers["PhoneSettings"];
 
-            tbDisplayName.Text = userSettings.GetValueOrDefault("DisplayName", "PI User");
-            tbUserName.Text = userSettings.GetValueOrDefault("Username", "piuser");
+            tbDisplayName.Text = userSettings.GetValueOrDefault("DisplayName", "");
+            tbUserName.Text = userSettings.GetValueOrDefault("Username", "");
 
             tbIsLinked.Text = bandSettings.GetValueOrDefault("IsLinked", false) ? "Linked" : "Unlinked";
             btnLink.Content = bandSettings.GetValueOrDefault("IsLinked", false) ? "Unlink" : "Link";

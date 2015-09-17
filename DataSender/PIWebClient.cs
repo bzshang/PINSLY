@@ -11,6 +11,7 @@ using System.Diagnostics;
 
 using DataModels;
 using DataOperations;
+using DataSender;
 
 using Newtonsoft.Json;
 using System.Globalization;
@@ -105,11 +106,63 @@ namespace PIClient
             return response;
         }
 
+        public async Task<HttpResponseMessage> GetDatabaseByPath(string path)
+        {
+            string url = @"https://osiproghack01.cloudapp.net/piwebapi/assetdatabases?path=" + path;
+            Uri uri = new Uri(url);
+            HttpResponseMessage response = await _httpClient.GetAsync(uri);
+
+            return response;
+        }
+
         public async Task<HttpResponseMessage> GetPoints(string webID, string nameFilter)
         {
             string url = @"https://osiproghack01.cloudapp.net/piwebapi/dataservers/" + webID + "/points?nameFilter=" + nameFilter; 
             Uri uri = new Uri(url);
             HttpResponseMessage response = await _httpClient.GetAsync(uri);
+
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> OpenEventFrame(string webId, string jsonString)
+        {        
+            string url = @"https://osiproghack01.cloudapp.net/piwebapi/assetdatabases/" + webId + "/eventframes";
+            Uri uri = new Uri(url);
+
+            IHttpContent httpContent = new HttpStringContent(jsonString, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
+            HttpResponseMessage response = await _httpClient.PostAsync(uri, httpContent);
+
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> CloseEventFrame(string webId, string jsonString)
+        {
+            string url = @"https://osiproghack01.cloudapp.net/piwebapi/eventframes/" + webId;
+            Uri uri = new Uri(url);
+
+            IHttpContent httpContent = new HttpStringContent(jsonString, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
+            HttpResponseMessage response = await _httpClient.PatchAsync(uri, httpContent);
+
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> GetEFAttributes(string webId)
+        {
+            string url = @"https://osiproghack01.cloudapp.net/piwebapi/eventframes/" + webId + "/attributes";
+            Uri uri = new Uri(url);
+
+            HttpResponseMessage response = await _httpClient.GetAsync(uri);
+
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> UpdateAttribute(string webId, string jsonString)
+        {
+            string url = @"https://osiproghack01.cloudapp.net/piwebapi/attributes/" + webId;
+            Uri uri = new Uri(url);
+
+            IHttpContent httpContent = new HttpStringContent(jsonString, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
+            HttpResponseMessage response = await _httpClient.PatchAsync(uri, httpContent);
 
             return response;
         }

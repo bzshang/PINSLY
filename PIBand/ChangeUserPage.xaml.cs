@@ -34,6 +34,8 @@ namespace PIBand
 
         private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
 
+        private bool _isUserSet;
+
         public ChangeUserPage()
         {
             this.InitializeComponent();
@@ -74,10 +76,19 @@ namespace PIBand
         /// session.  The state will be null the first time a page is visited.</param>
         private void NavigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
-            tbDisplayName.Text = AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].GetValueOrDefault("DisplayName", "PINSly User");
-            tbUsername.Text = AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].GetValueOrDefault("Username", "PINSly_user");
+            tbDisplayName.Text = AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].GetValueOrDefault("DisplayName", "");
+            tbUsername.Text = AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].GetValueOrDefault("Username", "");
 
-            tbPassword.Password = AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].GetPassword(tbUsername.Text);
+            if (!string.IsNullOrEmpty(tbUsername.Text))
+                tbPassword.Password = AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].GetPassword(tbUsername.Text);
+
+            _isUserSet = AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].ContainsKey("Username");
+
+            if (!_isUserSet)
+            {
+                tbTitle.Text = "Add User";
+            }
+
         }
 
         /// <summary>
@@ -128,16 +139,33 @@ namespace PIBand
 
             string currentUser = AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].GetValueOrDefault("Username", "none");
             AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].AddOrUpdatePassword(currentUser, tbPassword.Password);
+
+            _isUserSet = true;
         }
 
         private void BackUserAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            BackToSettings();
+            if (_isUserSet)
+            {
+                BackToSettings();
+            }
+            else
+            {
+                BackToPivot();
+            } 
         }
 
         private void BackToSettings()
         {
             if (!Frame.Navigate(typeof(SettingsPage)))
+            {
+                throw new Exception(this.resourceLoader.GetString("NavigationFailedExceptionMessage"));
+            }
+        }
+
+        private void BackToPivot()
+        {
+            if (!Frame.Navigate(typeof(PivotPage)))
             {
                 throw new Exception(this.resourceLoader.GetString("NavigationFailedExceptionMessage"));
             }

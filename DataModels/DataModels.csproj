@@ -83,7 +83,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdhocEventsDTO.cs" />
+    <Compile Include="AttributeDTO.cs" />
     <Compile Include="EventDTO.cs" />
+    <Compile Include="EventFrameDTO.cs" />
+    <Compile Include="EventFrameInfo.cs" />
     <Compile Include="EventItem.cs" />
     <Compile Include="PointDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

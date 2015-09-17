@@ -3,6 +3,7 @@ using PIBand.Models;
 using PIBand.Controllers;
 using DataOperations;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -44,7 +45,11 @@ namespace PIBand
         private DataClient _viewDataSubscription;
         private PhoneDataController _phoneDataController;
 
-        private string _currentUser = String.Empty;
+        private DispatcherTimer _timer;
+        private DispatcherTimer _checkStatusTimer;
+        private Stopwatch _sw;
+
+        private bool _isUserSet;
 
         public PivotPage()
         {
@@ -56,7 +61,6 @@ namespace PIBand
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
 
-            
         }
 
         /// <summary>
@@ -92,6 +96,9 @@ namespace PIBand
             // TODO: Create an appropriate data model for your problem domain to replace the sample data
             //var sampleDataGroup = await SampleDataSource.GetGroupAsync("Group-1");
             //this.DefaultViewModel[FirstGroupName] = sampleDataGroup;
+
+            
+
         }
 
         /// <summary>
@@ -105,6 +112,7 @@ namespace PIBand
         private void NavigationHelper_SaveState(object sender, SaveStateEventArgs e)
         {
             // TODO: Save the unique state of the page here.
+            
         }
 
         /// <summary>
@@ -242,18 +250,20 @@ namespace PIBand
 
         private void pivot_PivotItemLoaded(Pivot sender, PivotItemEventArgs args)
         {
+
+            _isUserSet = AppSettingsManager.Instance.LocalSettings.Containers["UserSettings"].ContainsKey("Username");
             //if (args.Item.Name == "Settings")
             //{
-                //string currentUser = AppSettingsManager.Instance.LocalSettings.Containers["Global"].Values["LastUser"] as string;
-                //AppSettings curentUserSettings = AppSettingsManager.Instance.LocalSettings.Containers["Users"].Values[currentUser] as AppSettings;
+            //string currentUser = AppSettingsManager.Instance.LocalSettings.Containers["Global"].Values["LastUser"] as string;
+            //AppSettings curentUserSettings = AppSettingsManager.Instance.LocalSettings.Containers["Users"].Values[currentUser] as AppSettings;
 
-                //if (curentUserSettings == null)
-                //{
-                //    this.DefaultViewModel[SettingsGroupName] = null;
+            //if (curentUserSettings == null)
+            //{
+            //    this.DefaultViewModel[SettingsGroupName] = null;
 
-                //}
+            //}
 
-                this.DefaultViewModel[SettingsGroupName] = null;
+            this.DefaultViewModel[SettingsGroupName] = null;
 
                 bottomAppBar.Visibility = Visibility.Visible;
 
@@ -271,9 +281,18 @@ namespace PIBand
             //}
             if (args.Item.Name == "Data")
             {
-                btnStart.IsEnabled = true;
                 btnStop.IsEnabled = false;
                 bottomAppBar.Visibility = Visibility.Visible;
+           
+                if (_isUserSet)
+                {
+                    btnStart.IsEnabled = true;
+                }
+                else
+                {
+                    btnStart.IsEnabled = false;
+                    tbStatus.Text = "Please add a user.";
+                }              
             }
             else
             {
@@ -294,19 +313,35 @@ namespace PIBand
 
         private async void btnStart_Click(object sender, RoutedEventArgs e)
         {
-            _viewDataSubscription = new DataClient();
-            _viewDataSubscription.SubscribeToAccelerometer(OnAccelerometerReading);
-            _viewDataSubscription.SubscribeToGeolocation(OnGeopositionReading);
+            SettingsAppBarButton.IsEnabled = false;
+
+            _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromSeconds(1);
+            _timer.Tick += _timer_Tick;
+
+            _sw = new Stopwatch();
+
+            _sw.Start();
+            _timer.Start();
+
+            //_viewDataSubscription = new DataClient();
+            //_viewDataSubscription.SubscribeToAccelerometer(OnAccelerometerReading);
+            //_viewDataSubscription.SubscribeToGeolocation(OnGeopositionReading);
 
             AFMetaDataController afMetaDataController = new AFMetaDataController();
             await afMetaDataController.BuildUserAssets();
             afMetaDataController.Close();
 
             _phoneDataController = new PhoneDataController();
-            _phoneDataController.Initialize();
+            await _phoneDataController.InitializeAsync();
 
             btnStart.IsEnabled = false;
             btnStop.IsEnabled = true;
+        }
+
+        private void _timer_Tick(object sender, object e)
+        {
+            tbTimer.Text = _sw.Elapsed.ToString(@"hh\:mm\:ss");
         }
 
         private async void OnGeopositionReading(PositionChangedEventArgs args)
@@ -315,7 +350,7 @@ namespace PIBand
             {
                 Geoposition geo = args.Position;
                 double reading = geo.Coordinate.Timestamp.Second;
-                tbGeo.Text = String.Format("{0,5:0.00}", reading);
+                //tbGeo.Text = String.Format("{0,5:0.00}", reading);
             });
 
             //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
@@ -332,7 +367,7 @@ namespace PIBand
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 AccelerometerReading reading = args.Reading;
-                tbAccelX.Text = String.Format("{0,5:0.00}", reading.AccelerationX);
+                //tbAccelX.Text = String.Format("{0,5:0.00}", reading.AccelerationX);
             });
 
         }
@@ -342,7 +377,7 @@ namespace PIBand
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 AccelerometerReading reading = args.Reading;
-                tbAccelX.Text = String.Format("{0,5:0.00}", reading.AccelerationX);
+                //tbAccelX.Text = String.Format("{0,5:0.00}", reading.AccelerationX);
             });
 
         }
@@ -351,18 +386,35 @@ namespace PIBand
         {
             await _phoneDataController.Close();
 
+            _timer.Stop();
+            _sw.Reset();
+
             btnStop.IsEnabled = false;
             btnStart.IsEnabled = true;
 
-            _viewDataSubscription.RemoveSubscription();
+            if (_viewDataSubscription != null) _viewDataSubscription.RemoveSubscription();
+
+            SettingsAppBarButton.IsEnabled = true;
         }
 
         private void SettingsAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!Frame.Navigate(typeof(SettingsPage)))
+            if (_isUserSet)
             {
-                throw new Exception(this.resourceLoader.GetString("NavigationFailedExceptionMessage"));
+                if (!Frame.Navigate(typeof(SettingsPage)))
+                {
+                    throw new Exception(this.resourceLoader.GetString("NavigationFailedExceptionMessage"));
+                }
             }
+            else
+            {
+                if (!Frame.Navigate(typeof(ChangeUserPage)))
+                {
+                    throw new Exception(this.resourceLoader.GetString("NavigationFailedExceptionMessage"));
+                }
+            }
+
+
         }
     }
 }

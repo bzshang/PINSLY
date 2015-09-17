@@ -73,6 +73,7 @@ namespace PIBand.Controllers
                             valueResult = JObject.ReadFrom(jReader);
                         }
                     }
+
                     IList<PointDTO> points = valueResult["Items"].ToObject<List<PointDTO>>();
 
                     ApplicationDataCompositeValue webIdsStored = new ApplicationDataCompositeValue();
@@ -205,9 +206,10 @@ namespace PIBand.Controllers
             return newWebId;
         }
 
+
+
         private async Task<bool> CreatePointsAsync(string webID, IList<string> pointNames)
         {
-
             Task<bool>[] tasks = pointNames.Select(async i => await CreatePointAsync(webID, i)).ToArray();
 
             bool[] results = await Task.WhenAll(tasks);

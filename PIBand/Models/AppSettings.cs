@@ -70,6 +70,11 @@ namespace PIBand.Models
             return value;
         }
 
+        public bool ContainsKey(string key)
+        {
+            return (_container.Values.ContainsKey(key));
+        }
+
         public string GetPassword(string currentUser)
         {
             IReadOnlyList<PasswordCredential> credentialList = null;

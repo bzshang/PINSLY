@@ -90,6 +90,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HttpClientExtensions.cs" />
     <Compile Include="IUpdateValues.cs" />
     <Compile Include="PIWebClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

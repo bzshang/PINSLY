@@ -98,13 +98,14 @@
             </PivotItem>-->
             <PivotItem 
                 x:Name="Data"
-                Margin="19,14.5,0,0"
-                Header="Data">
+                Margin="0,14.5,0,0"
+                Header="Data" HorizontalAlignment="Center">
                 <Grid>
-                    <TextBlock x:Name="tbAccelX" HorizontalAlignment="Left" Height="43" Margin="30,33,0,0" TextWrapping="Wrap" Text="AccelX" VerticalAlignment="Top" Width="146" FontSize="26.667" TextAlignment="Center"/>
-                    <TextBlock x:Name="tbGeo" HorizontalAlignment="Left" Height="43" Margin="30,80,0,0" TextWrapping="Wrap" Text="Geo" VerticalAlignment="Top" Width="146" FontSize="26.667" TextAlignment="Center"/>
-                    <Button x:Name="btnStart" Content="Start" Height="90" Margin="70,0,0,40"  Width="90" Style="{StaticResource ButtonStyleCircle}" Click="btnStart_Click" VerticalAlignment="Bottom" Background="DarkGreen"/>
-                    <Button x:Name="btnStop" Content="Stop" Height="90" Margin="0,0,85,40" Width="90" Style="{StaticResource ButtonStyleCircle}" Click="btnStop_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="#FF960000"/>
+                    <!--<TextBlock x:Name="tbAccelX" HorizontalAlignment="Left" Margin="70,0,0,225" TextWrapping="Wrap" Text="AccelX" Width="146" FontSize="26.667" TextAlignment="Center" Height="43" VerticalAlignment="Bottom"/>-->
+                    <TextBlock x:Name="tbTimer" HorizontalAlignment="Center" Height="72" Margin="46,0,46,300" TextWrapping="Wrap" Text="00:00:00" VerticalAlignment="Bottom" Width="289" FontSize="48" TextAlignment="Center"/>
+                    <TextBlock x:Name="tbStatus" HorizontalAlignment="Left" Margin="5,0,0,5" TextWrapping="Wrap" Text="Connected" VerticalAlignment="Bottom" FontSize="18.667" TextAlignment="Center"/>
+                    <Button x:Name="btnStart" Content="Start" Height="90" Margin="70,0,0,70"  Width="90" Style="{StaticResource ButtonStyleCircle}" Click="btnStart_Click" VerticalAlignment="Bottom" Background="DarkGreen"/>
+                    <Button x:Name="btnStop" Content="Stop" Height="90" Margin="0,0,85,70" Width="90" Style="{StaticResource ButtonStyleCircle}" Click="btnStop_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="#FF960000"/>
                 </Grid>
             </PivotItem>
             <!--Pivot item settings-->
